@@ -3,10 +3,9 @@ define [
     "jquery"
     "react"
     "reactRouter"
-    "signals"
     "components/ajax/ajaxRequest"
     "./requireAuth"
-], (_, $, React, Router, Signal, AjaxRequest, requireAuth) ->
+], (_, $, React, Router, AjaxRequest, requireAuth) ->
 
     Route = Router.Route
     Link = Router.Link
@@ -50,24 +49,19 @@ define [
 
         componentDidMount: ->
             @.stepWarning = $("#stepWarning")
-            @.signal = new Signal()
-            @.signal.add (event) ->
-                console.debug "event....", event
-            
-            @.onChange = (event) ->
-                console.debug "onChange::::", event
-
-            @.onClick = (event) ->
-                console.debug "onClick::::", event
 
             @sendStepRequest()
 
         handleChange: (event) ->
             checkedInput = @.refs.quizQuestionGroup.getCheckedInput()
-            @.selectedValue = event.target.value
+            console.debug ">>>>>>>", checkedInput.value
+            @.selectedValue = checkedInput.value
 
         sendStepRequest: ->
-            new AjaxRequest(@.state.checkServicePath, {value: @.selectedValue}, "POST", "application/json").always @processAnswerResult
+            obj =
+                value: @.selectedValue
+            data = JSON.stringify obj
+            new AjaxRequest(@.state.checkServicePath, data, "POST", "application/json").always @processAnswerResult
         
         processAnswerResult: (result) ->
             console.debug "result::::", result
@@ -104,7 +98,7 @@ define [
             return (
                 <form>
                     <p className={translateClass}>Translate, please: <span className={quizwordValueClass}>{this.state.quizword}</span></p>
-                    <Choice source={this.state.choice} signal={this.signal} ref="quizQuestionGroup" onChange={this.handleChange}/>
+                    <Choice source={this.state.choice} ref="quizQuestionGroup" onChange={this.handleChange}/>
                     <p className={stepWarningClass} id="stepWarning"></p>
                     <input type="button" value="Next" className={stepBtnClass} onClick={@.sendStepRequest}/>
                 </form>

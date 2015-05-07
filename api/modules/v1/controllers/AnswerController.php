@@ -17,10 +17,6 @@ class AnswerController extends Controller
         return $mistakes;
     }
 
-    private function addPoint($response, $point, $word, $mistakes_count){
-        return array_merge($response, ["point" => $point, "current_word" => $word, "mistakes" => $mistakes_count]);
-    }
-
     private function updateResponse($response, $array){
         return array_merge($response, $array);
     }
@@ -37,6 +33,7 @@ class AnswerController extends Controller
     {   
         $session = Yii::$app->session;
         $mistakes_count = $session["mistakes_count"];
+        $user_points = $session["user_points"];
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $data = Yii::$app->request->post();
@@ -44,18 +41,20 @@ class AnswerController extends Controller
         $answer_lang = "ERROR";
 
         $value = $data['value'];
-        $value = trim($value[0]);
+        $value = trim($value);
 
-        if (!preg_match('/[^A-Za-z]/', $value )){
+        // return [$value];
+
+        if (preg_match('/[^A-Za-z]/', $value )){
             $origin_lang = "ru";
             $answer_lang = "en";
-        } else if (!preg_match('/[^А-Я,а-я]/', $value )){
+        } else if (preg_match('/[^А-Я,а-я]/', $value )){
             $origin_lang = "en";
             $answer_lang = "ru";
         }
 
         if ($answer_lang == "ERROR"){
-            $response = ["error" => "NOT_VALID_ANSWER_VALUE"];
+            $response = ["error" => "NOT_VALID_ANSWER_VALUE", "your_answer" => $value];
             return $response;
         } else {
             $response = ["origin_lang" => $origin_lang];
@@ -71,22 +70,19 @@ class AnswerController extends Controller
                 $mistakes_count++;
                 $session["mistakes_count"] = $mistakes_count;
 
-                $response = $this->addPoint($response, 0, $current_word, $mistakes_count);
-
                 // quiz is over, if {3} mistakes occured
-                if ($mistakes_count >= 3){
+                if ($mistakes_count >= 20){
                     $this->saveUserInfo();
                     $session->destroy();
                     $session->close();
                     $response = $this->updateResponse($response, ["state" => "QUIZ_END_WITH_MISTAKES"]);
                 }
             } else {
-                $user_points = $session["user_points"];
-                $user_points++;
+                $user_points = $user_points + 1;
                 $session["user_points"] = $user_points;
-                $response =  $this->addPoint($response, 1, $current_word, $mistakes_count);
             }
-            
+
+            $response =  $this->updateResponse($response, ["points" => $user_points, "current_word" => $current_word, "your_answer" => $value, "mistakes_count" => $mistakes_count]);
             return $response;
         }
     }

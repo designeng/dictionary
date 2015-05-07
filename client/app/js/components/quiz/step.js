@@ -1,4 +1,4 @@
-define(["underscore", "jquery", "react", "reactRouter", "signals", "components/ajax/ajaxRequest", "./requireAuth"], function(_, $, React, Router, Signal, AjaxRequest, requireAuth) {
+define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxRequest", "./requireAuth"], function(_, $, React, Router, AjaxRequest, requireAuth) {
   var Choice, Link, Route, Step;
   Route = Router.Route;
   Link = Router.Link;
@@ -55,27 +55,21 @@ define(["underscore", "jquery", "react", "reactRouter", "signals", "components/a
     },
     componentDidMount: function() {
       this.stepWarning = $("#stepWarning");
-      this.signal = new Signal();
-      this.signal.add(function(event) {
-        return console.debug("event....", event);
-      });
-      this.onChange = function(event) {
-        return console.debug("onChange::::", event);
-      };
-      this.onClick = function(event) {
-        return console.debug("onClick::::", event);
-      };
       return this.sendStepRequest();
     },
     handleChange: function(event) {
       var checkedInput;
       checkedInput = this.refs.quizQuestionGroup.getCheckedInput();
-      return this.selectedValue = event.target.value;
+      console.debug(">>>>>>>", checkedInput.value);
+      return this.selectedValue = checkedInput.value;
     },
     sendStepRequest: function() {
-      return new AjaxRequest(this.state.checkServicePath, {
+      var data, obj;
+      obj = {
         value: this.selectedValue
-      }, "POST", "application/json").always(this.processAnswerResult);
+      };
+      data = JSON.stringify(obj);
+      return new AjaxRequest(this.state.checkServicePath, data, "POST", "application/json").always(this.processAnswerResult);
     },
     processAnswerResult: function(result) {
       console.debug("result::::", result);
@@ -116,7 +110,6 @@ define(["underscore", "jquery", "react", "reactRouter", "signals", "components/a
         "className": quizwordValueClass
       }, this.state.quizword)), React.createElement(Choice, {
         "source": this.state.choice,
-        "signal": this.signal,
         "ref": "quizQuestionGroup",
         "onChange": this.handleChange
       }), React.createElement("p", {
