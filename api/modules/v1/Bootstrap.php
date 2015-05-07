@@ -26,7 +26,6 @@ class Bootstrap extends \yii\base\Module
                 ->asArray()
                 ->all();
 
-            echo "NO WORDS";
             // in dictionary var stored all quiz words
             // in words we store the words rest
             $session['words'] = $session['dictionary'] = $this->words;

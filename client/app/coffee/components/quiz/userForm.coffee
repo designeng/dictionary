@@ -11,6 +11,11 @@ define [
 
     UserForm = React.createClass
 
+        componentDidMount: ->
+            $("#userForm").show()
+
+        onChange: ->
+
         validateForm: ->
             userName = $.trim($("#userName").val())
             if !userName
@@ -31,10 +36,15 @@ define [
                     word: result.word
                     choises: result.choises
 
+            if result? and !result.error
+
+                window.location.hash = "questions"
+                $("#userForm").hide()
+
         render: ->
             return (
-                <form>
-                    <input type="text" id="userName" name="userName" placeholder="User Name"/>
+                <form id="userForm">
+                    <input type="text" value="azxcv" id="userName" name="userName" placeholder="User Name" onChange={@.onChange}/>
                     <input type="button" value="Start quiz" onClick={@.userEndpointRequest}/>
                 </form>
             )

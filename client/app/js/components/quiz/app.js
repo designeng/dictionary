@@ -1,68 +1,32 @@
 define(["react", "reactRouter", "./userForm", "./step", "./inbox"], function(React, Router, UserForm, Step, Inbox) {
-  var App, AsyncElement, Link, PreQuestions, PreResult, Route, RouteHandler, routes;
+  var App, Link, Route, RouteHandler, StepHandler, routes;
   Route = Router.Route;
   RouteHandler = Router.RouteHandler;
   Link = Router.Link;
-  AsyncElement = {
-    loadedComponent: null,
-    load: function() {
-      if (this.constructor.loadedComponent) {
-        return;
-      }
-      return this.bundle((function(_this) {
-        return function(component) {
-          _this.constructor.loadedComponent = component;
-          return _this.forceUpdate();
-        };
-      })(this));
-    },
-    componentDidMount: function() {
-      return setTimeout(this.load, 1000);
-    },
-    render: function() {
-      var Component;
-      Component = this.constructor.loadedComponent;
-      if (Component) {
-        this.props.activeRoute = React.createElement(RouteHandler, null);
-        return React.createElement(Component, React.__spread({}, this.props));
-      }
-      return this.preRender();
-    }
-  };
-  PreQuestions = React.createClass({
-    mixins: [AsyncElement],
-    bundle: Step,
-    preRender: function() {
-      return React.createElement("div", null, "Loading questions...");
-    }
-  });
-  PreResult = React.createClass({
-    mixins: [AsyncElement],
-    bundle: Inbox,
-    preRender: function() {
-      return React.createElement("div", null, "PreResult here");
-    }
-  });
+  StepHandler = React.createClass(Step);
   App = React.createClass({
+    componentDidMount: function() {
+      console.debug(".....");
+      return $("#userForm").show();
+    },
     render: function() {
       return React.createElement("div", null, React.createElement("h1", null, "Dictionary Test"), React.createElement(UserForm, {
-        "endpoint": "../api/web/v1/sessions"
-      }), React.createElement("ul", null, React.createElement("li", null, React.createElement(Link, {
-        "to": "questions"
-      }, "start questions"))), React.createElement(RouteHandler, null));
+        "endpoint": "../api/web/v1/sessions",
+        "onsuccess": "questions"
+      }), React.createElement(RouteHandler, null));
     }
   });
   routes = React.createElement(Route, {
+    "path": "/",
     "handler": App
   }, React.createElement(Route, {
     "name": "questions",
     "path": "questions",
-    "handler": PreQuestions
-  }, React.createElement(Route, {
+    "handler": StepHandler
+  }), React.createElement(Route, {
     "name": "result",
-    "path": "questions/result",
-    "handler": PreResult
-  })));
+    "path": "questions/result"
+  }));
   return Router.run(routes, function(Handler) {
     return React.render(React.createElement(Handler, null), document.getElementById("application"));
   });

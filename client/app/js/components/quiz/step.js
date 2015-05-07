@@ -1,8 +1,8 @@
 define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxRequest", "./requireAuth"], function(_, $, React, Router, AjaxRequest, requireAuth) {
-  var Choises, Link, Route, Step;
+  var Choice, Link, Route, Step;
   Route = Router.Route;
   Link = Router.Link;
-  Choises = React.createClass({
+  Choice = React.createClass({
     getInitialState: function() {
       return {
         value: 'celery'
@@ -22,17 +22,19 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return React.createElement("div", null, choises);
     }
   });
-  return Step = React.createClass({
+  return Step = {
     getInitialState: function() {
       return {
+        source: "../api/web/v1/tests",
         stepCount: 0
       };
     },
     componentDidMount: function() {
+      console.debug("componentDidMount");
       return this.sendStepRequest();
     },
     sendStepRequest: function() {
-      return new AjaxRequest(this.props.source, null, "GET", "application/json").always(this.afterSendRequest);
+      return new AjaxRequest(this.state.source, null, "GET", "application/json").always(this.afterSendRequest);
     },
     afterSendRequest: function(result) {
       console.debug("result", result);
@@ -44,8 +46,8 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       if (this.isMounted()) {
         this.setState({
           id: result.id,
-          word: result.word,
-          choises: result.choises
+          quizword: result.quizword,
+          choice: result.choice
         });
       }
       return this.state.stepCount++;
@@ -53,13 +55,13 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
     render: function() {
       return React.createElement("form", null, React.createElement("div", {
         "class": "word"
-      }, this.state.word), React.createElement(Choises, {
-        "source": this.state.choises
+      }, this.state.quizword), React.createElement(Choice, {
+        "source": this.state.choice
       }), React.createElement("input", {
         "type": "button",
         "value": "Next",
         "onClick": this.sendStepRequest
       }));
     }
-  });
+  };
 });

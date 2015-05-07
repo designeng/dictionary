@@ -10,7 +10,7 @@ define [
     Route = Router.Route
     Link = Router.Link
 
-    Choises = React.createClass
+    Choice = React.createClass
 
         getInitialState: ->
             return {value: 'celery'}
@@ -26,22 +26,22 @@ define [
                 <div>{choises}</div>
             )
 
-    # return Choises
-
     # <Step source="/api/step"></Step>
     # result: {JSON} - ex: {id: "...", word: "....", choises: [....]}
 
-    Step = React.createClass
+    Step = 
         getInitialState: ->
             return {
+                source: "../api/web/v1/tests"
                 stepCount: 0
             }
 
         componentDidMount: ->
+            console.debug "componentDidMount"
             @sendStepRequest()
 
         sendStepRequest: ->
-            new AjaxRequest(@.props.source, null, "GET", "application/json").always @afterSendRequest
+            new AjaxRequest(@.state.source, null, "GET", "application/json").always @afterSendRequest
 
         afterSendRequest: (result) ->
             console.debug "result", result
@@ -52,16 +52,16 @@ define [
             if @.isMounted()
                 this.setState
                     id: result.id
-                    word: result.word
-                    choises: result.choises
+                    quizword: result.quizword
+                    choice: result.choice
 
             @.state.stepCount++
 
         render: ->
             return (
                 <form>
-                    <div class="word">{this.state.word}</div>
-                    <Choises source={this.state.choises}/>
+                    <div class="word">{this.state.quizword}</div>
+                    <Choice source={this.state.choice}/>
                     <input type="button" value="Next" onClick={@.sendStepRequest}/>
                 </form>
             )

@@ -19,12 +19,6 @@ class SiteController extends Controller
     public $russian = array();
     public $english = array();
 
-    // public function __construct()
-    // {
-    //     parent::__construct("SiteController", Yii::$app);
-    //     echo "__constructor";
-    // }
-
     public function behaviors()
     {
         return [
@@ -112,26 +106,6 @@ class SiteController extends Controller
 
     public function init()
     {   
-        echo "<br>";
-        var_dump($this->english);
-        echo "<br>------";
-
-        // $this->russian = Russian::find()
-        //     ->asArray()
-        //     ->all();
-        // $this->english = English::find()
-        //     ->asArray()
-        //     ->all();
-
-        echo "<br>";
-        echo "<br>";
-        echo "<br>";
-        echo "<br>";
-        echo "<br>";
-        // echo($this->english[0]["id"]);
-        // echo($this->english[0]["russian_id"]);
-        // echo($this->english[0]["value"]);
-        // echo($this->english[0]["value"]);
     }
 
     public function actionQuiz()

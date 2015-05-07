@@ -3,6 +3,10 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
   Route = Router.Route;
   Link = Router.Link;
   return UserForm = React.createClass({
+    componentDidMount: function() {
+      return $("#userForm").show();
+    },
+    onChange: function() {},
     validateForm: function() {
       var userName;
       userName = $.trim($("#userName").val());
@@ -20,19 +24,27 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
     afterSendRequest: function(result) {
       console.debug("result", result);
       if (this.isMounted()) {
-        return this.setState({
+        this.setState({
           id: result.id,
           word: result.word,
           choises: result.choises
         });
       }
+      if ((result != null) && !result.error) {
+        window.location.hash = "questions";
+        return $("#userForm").hide();
+      }
     },
     render: function() {
-      return React.createElement("form", null, React.createElement("input", {
+      return React.createElement("form", {
+        "id": "userForm"
+      }, React.createElement("input", {
         "type": "text",
+        "value": "azxcv",
         "id": "userName",
         "name": "userName",
-        "placeholder": "User Name"
+        "placeholder": "User Name",
+        "onChange": this.onChange
       }), React.createElement("input", {
         "type": "button",
         "value": "Start quiz",
