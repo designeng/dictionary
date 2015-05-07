@@ -42,6 +42,10 @@ class TestController extends Controller
             return $item[$lang_keys[1]];
         }, $additionalChoice);
 
+        array_push($additionalChoice, $randomWord[$lang_keys[1]]);
+
+        shuffle($additionalChoice);
+
         $session['words'] = $words;
 
         $randomWord = [
