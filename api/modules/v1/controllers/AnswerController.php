@@ -34,6 +34,7 @@ class AnswerController extends Controller
         $session = Yii::$app->session;
         $mistakes_count = $session["mistakes_count"];
         $user_points = $session["user_points"];
+        $point = 0;
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $data = Yii::$app->request->post();
@@ -78,11 +79,12 @@ class AnswerController extends Controller
                     $response = $this->updateResponse($response, ["state" => "QUIZ_END_WITH_MISTAKES"]);
                 }
             } else {
-                $user_points = $user_points + 1;
+                $point = 1;
+                ++$user_points;
                 $session["user_points"] = $user_points;
             }
 
-            $response =  $this->updateResponse($response, ["points" => $user_points, "current_word" => $current_word, "your_answer" => $value, "mistakes_count" => $mistakes_count]);
+            $response =  $this->updateResponse($response, ["point" => $point, "user_points" => $user_points, "current_word" => $current_word, "your_answer" => $value, "mistakes_count" => $mistakes_count]);
             return $response;
         }
     }

@@ -54,7 +54,6 @@ define [
 
         handleChange: (event) ->
             checkedInput = @.refs.quizQuestionGroup.getCheckedInput()
-            console.debug ">>>>>>>", checkedInput.value
             @.selectedValue = checkedInput.value
 
         sendStepRequest: ->
@@ -64,12 +63,11 @@ define [
             new AjaxRequest(@.state.checkServicePath, data, "POST", "application/json").always @processAnswerResult
         
         processAnswerResult: (result) ->
-            console.debug "result::::", result
+            console.debug "result::::>>>>>", result
 
             if result.point == 0
                 @.stepWarning.show()
                 @.stepWarning.text "Try again"
-                console.debug "Try again"
 
             else
                 @.stepWarning.hide()

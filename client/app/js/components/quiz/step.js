@@ -60,7 +60,6 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
     handleChange: function(event) {
       var checkedInput;
       checkedInput = this.refs.quizQuestionGroup.getCheckedInput();
-      console.debug(">>>>>>>", checkedInput.value);
       return this.selectedValue = checkedInput.value;
     },
     sendStepRequest: function() {
@@ -72,11 +71,10 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return new AjaxRequest(this.state.checkServicePath, data, "POST", "application/json").always(this.processAnswerResult);
     },
     processAnswerResult: function(result) {
-      console.debug("result::::", result);
+      console.debug("result::::>>>>>", result);
       if (result.point === 0) {
         this.stepWarning.show();
-        this.stepWarning.text("Try again");
-        return console.debug("Try again");
+        return this.stepWarning.text("Try again");
       } else {
         this.stepWarning.hide();
         return new AjaxRequest(this.state.sourceServicePath, null, "GET", "application/json").always(this.afterSendRequest);
