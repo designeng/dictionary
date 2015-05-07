@@ -1,9 +1,10 @@
 define [
     "react"
     "reactRouter"
+    "./userForm"
     "./step"
     "./inbox"
-], (React, Router, Step, Inbox) ->
+], (React, Router, UserForm, Step, Inbox) ->
 
     Route = Router.Route
     RouteHandler = Router.RouteHandler
@@ -45,13 +46,12 @@ define [
 
     App = React.createClass
         render: ->
-            source = "js/service/word.json"
             return (
                 <div>
                     <h1>Dictionary Test</h1>
+                    <UserForm endpoint="../api/web/v1/sessions"/>
                     <ul>
                         <li><Link to="questions">start questions</Link></li>
-                        <li><Step source={source}>.....</Step></li>
                     </ul>
                     <RouteHandler/>
                 </div>

@@ -1,4 +1,4 @@
-define(["react", "reactRouter", "./step", "./inbox"], function(React, Router, Step, Inbox) {
+define(["react", "reactRouter", "./userForm", "./step", "./inbox"], function(React, Router, UserForm, Step, Inbox) {
   var App, AsyncElement, Link, PreQuestions, PreResult, Route, RouteHandler, routes;
   Route = Router.Route;
   RouteHandler = Router.RouteHandler;
@@ -45,13 +45,11 @@ define(["react", "reactRouter", "./step", "./inbox"], function(React, Router, St
   });
   App = React.createClass({
     render: function() {
-      var source;
-      source = "js/service/word.json";
-      return React.createElement("div", null, React.createElement("h1", null, "Dictionary Test"), React.createElement("ul", null, React.createElement("li", null, React.createElement(Link, {
+      return React.createElement("div", null, React.createElement("h1", null, "Dictionary Test"), React.createElement(UserForm, {
+        "endpoint": "../api/web/v1/sessions"
+      }), React.createElement("ul", null, React.createElement("li", null, React.createElement(Link, {
         "to": "questions"
-      }, "start questions")), React.createElement("li", null, React.createElement(Step, {
-        "source": source
-      }, "....."))), React.createElement(RouteHandler, null));
+      }, "start questions"))), React.createElement(RouteHandler, null));
     }
   });
   routes = React.createElement(Route, {
