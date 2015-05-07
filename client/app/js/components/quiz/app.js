@@ -6,14 +6,26 @@ define(["react", "reactRouter", "./userForm", "./step", "./inbox"], function(Rea
   StepHandler = React.createClass(Step);
   App = React.createClass({
     componentDidMount: function() {
-      console.debug(".....");
       return $("#userForm").show();
     },
     render: function() {
-      return React.createElement("div", null, React.createElement("h1", null, "Dictionary Test"), React.createElement(UserForm, {
+      var panelBodyClass, panelClass, panelHeadingClass, panelTitleClass;
+      panelClass = "panel panel-default";
+      panelBodyClass = "panel-body";
+      panelTitleClass = "panel-title";
+      panelHeadingClass = "panel-heading";
+      return React.createElement("div", {
+        "className": panelClass
+      }, React.createElement("div", {
+        "className": panelHeadingClass
+      }, React.createElement("h3", {
+        "className": panelTitleClass
+      }, "Dictionary Quiz")), React.createElement("div", {
+        "className": panelBodyClass
+      }, React.createElement(UserForm, {
         "endpoint": "../api/web/v1/sessions",
         "onsuccess": "questions"
-      }), React.createElement(RouteHandler, null));
+      })), React.createElement(RouteHandler, null));
     }
   });
   routes = React.createElement(Route, {

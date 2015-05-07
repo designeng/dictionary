@@ -42,9 +42,20 @@ define [
                 $("#userForm").hide()
 
         render: ->
+            formClass = "form-horizontal"
+            controlClass = "col-sm-2"
+            controlBtnClass = "btn btn-info"
+            inputWrapperClass = "col-sm-10"
+            formGroupClass = "form-group"
             return (
-                <form id="userForm">
-                    <input type="text" value="azxcv" id="userName" name="userName" placeholder="User Name" onChange={@.onChange}/>
-                    <input type="button" value="Start quiz" onClick={@.userEndpointRequest}/>
+                <form className={formClass} id="userForm">
+                    <div className={formGroupClass}>
+                        <div className={inputWrapperClass}>
+                            <input type="text" className={controlClass} value="azxcv" id="userName" name="userName" placeholder="User Name" onChange={@.onChange}/>
+                        </div>
+                        <div className={inputWrapperClass}>
+                            <button type="button" className={controlBtnClass} onClick={@.userEndpointRequest}>Start quiz</button>
+                        </div>
+                    </div>
                 </form>
             )

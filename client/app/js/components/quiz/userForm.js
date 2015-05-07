@@ -36,20 +36,34 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       }
     },
     render: function() {
+      var controlBtnClass, controlClass, formClass, formGroupClass, inputWrapperClass;
+      formClass = "form-horizontal";
+      controlClass = "col-sm-2";
+      controlBtnClass = "btn btn-info";
+      inputWrapperClass = "col-sm-10";
+      formGroupClass = "form-group";
       return React.createElement("form", {
+        "className": formClass,
         "id": "userForm"
+      }, React.createElement("div", {
+        "className": formGroupClass
+      }, React.createElement("div", {
+        "className": inputWrapperClass
       }, React.createElement("input", {
         "type": "text",
+        "className": controlClass,
         "value": "azxcv",
         "id": "userName",
         "name": "userName",
         "placeholder": "User Name",
         "onChange": this.onChange
-      }), React.createElement("input", {
+      })), React.createElement("div", {
+        "className": inputWrapperClass
+      }, React.createElement("button", {
         "type": "button",
-        "value": "Start quiz",
+        "className": controlBtnClass,
         "onClick": this.userEndpointRequest
-      }));
+      }, "Start quiz"))));
     }
   });
 });

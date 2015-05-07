@@ -1,0 +1,16 @@
+.quizword, .step-warning{
+    padding: 10px;
+}
+
+.quizword-value, .step-warning, .choice-value{
+    padding-left: 20px;
+}
+
+.quizword-value{
+    font-style: italic;
+    font-weight: bold;
+}
+
+.stepBtn{
+    padding: 10px;
+}

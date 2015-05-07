@@ -1,4 +1,4 @@
-define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxRequest", "./requireAuth"], function(_, $, React, Router, AjaxRequest, requireAuth) {
+define(["underscore", "jquery", "react", "reactRouter", "signals", "components/ajax/ajaxRequest", "./requireAuth"], function(_, $, React, Router, Signal, AjaxRequest, requireAuth) {
   var Choice, Link, Route, Step;
   Route = Router.Route;
   Link = Router.Link;
@@ -8,33 +8,85 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         value: 'celery'
       };
     },
-    handleChange: function(event) {
-      return console.debug("onChangeHandler:::", event.target);
+    getCheckedInput: function() {
+      var $radios, res;
+      $radios = this.getRadios();
+      res = _.filter($radios, function(item) {
+        if (item.checked) {
+          return true;
+        }
+      });
+      return res[0];
+    },
+    getRadios: function() {
+      return this.getDOMNode().querySelectorAll('input[type="radio"]');
     },
     render: function() {
-      var choises;
-      choises = _.map(this.props.source, function(choise) {
-        return React.createElement("label", null, React.createElement("input", {
-          "type": "radio",
-          "value": "choise"
-        }), choise);
-      });
-      return React.createElement("div", null, choises);
+      var choiceValueClass, choises, listGroupClass, listGroupItemClass;
+      listGroupClass = "list-group";
+      listGroupItemClass = "list-group-item";
+      choiceValueClass = "choice-value";
+      choises = _.map(this.props.source, (function(_this) {
+        return function(choise) {
+          return React.createElement("li", {
+            "className": listGroupItemClass
+          }, React.createElement("input", {
+            "type": "radio",
+            "value": choise,
+            "name": "multiChoice",
+            "onChange": _this.props.onChange
+          }), React.createElement("label", {
+            "className": choiceValueClass
+          }, choise));
+        };
+      })(this));
+      return React.createElement("ul", {
+        "className": listGroupClass
+      }, choises);
     }
   });
   return Step = {
     getInitialState: function() {
       return {
-        source: "../api/web/v1/tests",
+        sourceServicePath: "../api/web/v1/tests",
+        checkServicePath: "../api/web/v1/answers",
         stepCount: 0
       };
     },
     componentDidMount: function() {
-      console.debug("componentDidMount");
+      this.stepWarning = $("#stepWarning");
+      this.signal = new Signal();
+      this.signal.add(function(event) {
+        return console.debug("event....", event);
+      });
+      this.onChange = function(event) {
+        return console.debug("onChange::::", event);
+      };
+      this.onClick = function(event) {
+        return console.debug("onClick::::", event);
+      };
       return this.sendStepRequest();
     },
+    handleChange: function(event) {
+      var checkedInput;
+      checkedInput = this.refs.quizQuestionGroup.getCheckedInput();
+      return this.selectedValue = event.target.value;
+    },
     sendStepRequest: function() {
-      return new AjaxRequest(this.state.source, null, "GET", "application/json").always(this.afterSendRequest);
+      return new AjaxRequest(this.state.checkServicePath, {
+        value: this.selectedValue
+      }, "POST", "application/json").always(this.processAnswerResult);
+    },
+    processAnswerResult: function(result) {
+      console.debug("result::::", result);
+      if (result.point === 0) {
+        this.stepWarning.show();
+        this.stepWarning.text("Try again");
+        return console.debug("Try again");
+      } else {
+        this.stepWarning.hide();
+        return new AjaxRequest(this.state.sourceServicePath, null, "GET", "application/json").always(this.afterSendRequest);
+      }
     },
     afterSendRequest: function(result) {
       console.debug("result", result);
@@ -53,13 +105,27 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return this.state.stepCount++;
     },
     render: function() {
-      return React.createElement("form", null, React.createElement("div", {
-        "class": "word"
-      }, this.state.quizword), React.createElement(Choice, {
-        "source": this.state.choice
+      var quizwordValueClass, stepBtnClass, stepWarningClass, translateClass;
+      translateClass = "bg-info quizword";
+      quizwordValueClass = "quizword-value";
+      stepBtnClass = "btn btn-info stepBtn";
+      stepWarningClass = "bg-warning step-warning";
+      return React.createElement("form", null, React.createElement("p", {
+        "className": translateClass
+      }, "Translate, please: ", React.createElement("span", {
+        "className": quizwordValueClass
+      }, this.state.quizword)), React.createElement(Choice, {
+        "source": this.state.choice,
+        "signal": this.signal,
+        "ref": "quizQuestionGroup",
+        "onChange": this.handleChange
+      }), React.createElement("p", {
+        "className": stepWarningClass,
+        "id": "stepWarning"
       }), React.createElement("input", {
         "type": "button",
         "value": "Next",
+        "className": stepBtnClass,
         "onClick": this.sendStepRequest
       }));
     }

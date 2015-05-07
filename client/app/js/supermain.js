@@ -5,23 +5,27 @@ require.config({
     {
       name: "underscore",
       main: "lodash",
-      location: "../../bower_components/lodash/dist"
+      location: "../../vendor/bower/lodash/dist"
     }, {
       name: "jquery",
       main: "jquery",
-      location: "../../bower_components/jquery/dist"
+      location: "../../vendor/bower/jquery/dist"
     }, {
       name: "text",
       main: "text",
-      location: "../../bower_components/text"
+      location: "../../vendor/bower/text"
+    }, {
+      name: "signals",
+      main: "signals",
+      location: "../../vendor/bower/js-signals/dist"
     }, {
       name: "react",
       main: "react",
-      location: "../../bower_components/react"
+      location: "../../vendor/bower/react"
     }, {
       name: "reactRouter",
       main: "ReactRouter",
-      location: "../../bower_components/react-router/build/umd"
+      location: "../../vendor/bower/react-router/build/umd"
     }
   ],
   shim: {},

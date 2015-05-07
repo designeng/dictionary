@@ -14,14 +14,22 @@ define [
 
     App = React.createClass
             componentDidMount: ->
-                console.debug "....."
                 $("#userForm").show()
 
             render: ->
+                panelClass = "panel panel-default"
+                panelBodyClass = "panel-body"
+                panelTitleClass = "panel-title"
+                panelHeadingClass = "panel-heading"
+
                 return (
-                    <div>
-                        <h1>Dictionary Test</h1>
-                        <UserForm endpoint="../api/web/v1/sessions" onsuccess="questions"/>
+                    <div className={panelClass}>
+                        <div className={panelHeadingClass}>
+                            <h3 className={panelTitleClass}>Dictionary Quiz</h3>
+                        </div>
+                        <div className={panelBodyClass}>
+                            <UserForm endpoint="../api/web/v1/sessions" onsuccess="questions"/>
+                        </div>
                         <RouteHandler/>
                     </div>
                 )

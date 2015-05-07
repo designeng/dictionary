@@ -3,9 +3,10 @@ define [
     "jquery"
     "react"
     "reactRouter"
+    "signals"
     "components/ajax/ajaxRequest"
     "./requireAuth"
-], (_, $, React, Router, AjaxRequest, requireAuth) ->
+], (_, $, React, Router, Signal, AjaxRequest, requireAuth) ->
 
     Route = Router.Route
     Link = Router.Link
@@ -15,33 +16,70 @@ define [
         getInitialState: ->
             return {value: 'celery'}
 
-        handleChange: (event) ->
-            console.debug "onChangeHandler:::", event.target
+        getCheckedInput: ->
+            $radios = @.getRadios()
+
+            res = _.filter $radios, (item) ->
+                if item.checked
+                    return true
+
+            return res[0]
+
+        getRadios: ->
+            return @.getDOMNode().querySelectorAll('input[type="radio"]')
 
         render: ->
-            choises = _.map @.props.source, (choise) ->
-                return <label><input type="radio" value="choise"/>{choise}</label>
+            listGroupClass = "list-group"
+            listGroupItemClass = "list-group-item"
+            choiceValueClass = "choice-value"
+
+            choises = _.map @.props.source, (choise) =>
+                return <li className={listGroupItemClass}><input type="radio" value={choise} name="multiChoice" onChange={@.props.onChange}/><label className={choiceValueClass}>{choise}</label></li>
 
             return (
-                <div>{choises}</div>
+                <ul className={listGroupClass}>{choises}</ul>
             )
-
-    # <Step source="/api/step"></Step>
-    # result: {JSON} - ex: {id: "...", word: "....", choises: [....]}
 
     Step = 
         getInitialState: ->
             return {
-                source: "../api/web/v1/tests"
+                sourceServicePath: "../api/web/v1/tests"
+                checkServicePath: "../api/web/v1/answers"
                 stepCount: 0
             }
 
         componentDidMount: ->
-            console.debug "componentDidMount"
+            @.stepWarning = $("#stepWarning")
+            @.signal = new Signal()
+            @.signal.add (event) ->
+                console.debug "event....", event
+            
+            @.onChange = (event) ->
+                console.debug "onChange::::", event
+
+            @.onClick = (event) ->
+                console.debug "onClick::::", event
+
             @sendStepRequest()
 
+        handleChange: (event) ->
+            checkedInput = @.refs.quizQuestionGroup.getCheckedInput()
+            @.selectedValue = event.target.value
+
         sendStepRequest: ->
-            new AjaxRequest(@.state.source, null, "GET", "application/json").always @afterSendRequest
+            new AjaxRequest(@.state.checkServicePath, {value: @.selectedValue}, "POST", "application/json").always @processAnswerResult
+        
+        processAnswerResult: (result) ->
+            console.debug "result::::", result
+
+            if result.point == 0
+                @.stepWarning.show()
+                @.stepWarning.text "Try again"
+                console.debug "Try again"
+
+            else
+                @.stepWarning.hide()
+                new AjaxRequest(@.state.sourceServicePath, null, "GET", "application/json").always @afterSendRequest
 
         afterSendRequest: (result) ->
             console.debug "result", result
@@ -58,25 +96,18 @@ define [
             @.state.stepCount++
 
         render: ->
+            translateClass = "bg-info quizword"
+            quizwordValueClass = "quizword-value"
+            stepBtnClass = "btn btn-info stepBtn"
+            stepWarningClass = "bg-warning step-warning"
+
             return (
                 <form>
-                    <div class="word">{this.state.quizword}</div>
-                    <Choice source={this.state.choice}/>
-                    <input type="button" value="Next" onClick={@.sendStepRequest}/>
+                    <p className={translateClass}>Translate, please: <span className={quizwordValueClass}>{this.state.quizword}</span></p>
+                    <Choice source={this.state.choice} signal={this.signal} ref="quizQuestionGroup" onChange={this.handleChange}/>
+                    <p className={stepWarningClass} id="stepWarning"></p>
+                    <input type="button" value="Next" className={stepBtnClass} onClick={@.sendStepRequest}/>
                 </form>
             )
-
-    # class QuizStep extends React.Component
-    #     render: ->
-    #         return (
-    #             <div>
-    #                 <h1>Step 1</h1>
-    #                 <ul>
-    #                     <li><Link to="result">Step-QUESTION-result</Link></li>
-    #                 </ul>
-    #                 <RouteHandler/>
-    #             </div>
-    #         )
-
 
     # Step = requireAuth QuizStep
