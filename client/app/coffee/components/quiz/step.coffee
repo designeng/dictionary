@@ -50,8 +50,6 @@ define [
         componentDidMount: ->
             @.stepWarning = $("#stepWarning")
 
-            @sendStepRequest()
-
         handleChange: (event) ->
             checkedInput = @.refs.quizQuestionGroup.getCheckedInput()
             @.selectedValue = checkedInput.value

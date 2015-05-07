@@ -54,8 +54,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       };
     },
     componentDidMount: function() {
-      this.stepWarning = $("#stepWarning");
-      return this.sendStepRequest();
+      return this.stepWarning = $("#stepWarning");
     },
     handleChange: function(event) {
       var checkedInput;
