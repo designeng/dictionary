@@ -35,5 +35,10 @@ class Bootstrap extends \yii\base\Module
         if (!$session->has('mistakes_count')){
             $session["mistakes_count"] = 0;
         }
+
+        if (!$session->has('$user_name') && !$session->has('$user_points')){
+            $session["user_name"] = "admin";
+            $session["user_points"] = 0;
+        }
     }
 }

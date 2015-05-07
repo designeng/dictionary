@@ -1,5 +1,5 @@
 <?php
-namespace app\controllers;
+namespace api\modules\v1\controllers;
 
 use Yii;
 use app\models\Quiz;
@@ -8,17 +8,6 @@ use yii\web\NotFoundHttpException;
 
 class QuizController extends Controller
 {
-    public function actionView($id)
-    {
-        $model = Quiz::findOne($id);
-        if ($model === null) {
-            throw new NotFoundHttpException;
-        }
-
-        return $this->render('view', [
-            'model' => $model,
-        ]);
-    }
 
     public function actionCreate()
     {

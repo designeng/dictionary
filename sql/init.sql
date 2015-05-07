@@ -140,3 +140,10 @@ CREATE TABLE quiz (
     session_id int(11) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
+
+CREATE TABLE user (
+    id int(11)  unsigned NOT NULL auto_increment,
+    name VARCHAR(30) NOT NULL,
+    points int(11) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;

@@ -17,11 +17,4 @@ class User extends ActiveRecord
     {
         return ['id'];
     }
-
-    // public function rules()
-    // {
-    //     return [
-    //         [['english', 'russian'], 'required']
-    //     ];
-    // }
 }

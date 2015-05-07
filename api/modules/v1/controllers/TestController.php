@@ -16,7 +16,7 @@ class TestController extends Controller
 
         $words = $session['words'];
         if(!count($words)){
-            return;
+            return ["state"=> "QUIZ_END_WORDS"];
         }
         $dictionary = $session['dictionary'];
 
@@ -47,7 +47,8 @@ class TestController extends Controller
         $randomWord = [
             "id" => $randomWord["id"],
             "quizword" => $randomWord[$lang_keys[0]],
-            "choice" => $additionalChoice
+            "choice" => $additionalChoice,
+            "state" => "QUIZ_QUESTION"
         ];
 
         $count = count($session['words']);
