@@ -47,5 +47,5 @@ define [
         </Route>
     )
 
-    Router.run routes, (Handler) ->
-      React.render <Handler/>, document.getElementById "application"
+    Router.run routes, (Root) ->
+      React.render <Root/>, document.getElementById "application"

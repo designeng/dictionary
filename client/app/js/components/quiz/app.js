@@ -47,7 +47,7 @@ define(["react", "reactRouter", "components/ajax/ajaxRequest", "./initUser", "./
     "path": "result",
     "handler": ResultHandler
   }));
-  return Router.run(routes, function(Handler) {
-    return React.render(React.createElement(Handler, null), document.getElementById("application"));
+  return Router.run(routes, function(Root) {
+    return React.render(React.createElement(Root, null), document.getElementById("application"));
   });
 });
