@@ -16,7 +16,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       });
       return res[0];
     },
-    cleanSelected: function() {
+    uncheck: function() {
       return $('.radio-input').prop('checked', false);
     },
     render: function() {
@@ -99,7 +99,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return this.cleanPreviousChoice();
     },
     cleanPreviousChoice: function() {
-      return this.refs.quizQuestionGroup.cleanSelected();
+      return this.refs.quizQuestionGroup.uncheck();
     },
     render: function() {
       var quizwordValueClass, stepBtnClass, stepWarningClass, translateClass;

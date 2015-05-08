@@ -23,7 +23,7 @@ define [
 
             return res[0]
 
-        cleanSelected: ->
+        uncheck: ->
             $('.radio-input').prop('checked', false)
 
         render: ->
@@ -94,7 +94,7 @@ define [
             @.cleanPreviousChoice()
 
         cleanPreviousChoice: ->
-            @.refs.quizQuestionGroup.cleanSelected()
+            @.refs.quizQuestionGroup.uncheck()
 
         render: ->
             translateClass = "bg-info quizword"
