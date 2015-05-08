@@ -67,6 +67,13 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule', 
+                    'controller' => 'v1/state',
+                    'tokens' => [
+                        '{id}' => '<id:\\w+>'
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule', 
                     'controller' => 'v1/session',
                     'tokens' => [
                         '{id}' => '<id:\\w+>'
