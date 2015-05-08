@@ -21,9 +21,7 @@ define [
             panelTitleClass = "panel-title"
             panelHeadingClass = "panel-heading"
 
-            return (
-                <div></div>
-            )
+            console.debug "render InitUserHandler"
 
             return (
                 <div className={panelClass}>
@@ -45,15 +43,12 @@ define [
 
             componentDidMount: ->
                 @.getState()
-            #     $("#userForm").show()
 
             getState: ->
                 stateServicePath = "../api/web/v1/states"
                 new AjaxRequest(stateServicePath, null, "GET", "application/json").always @onGetState
 
             onGetState: (result) ->
-                console.debug "STATE:::", result
-
                 if result.state == "INIT_USER_STATE"
                     @.context.router.transitionTo('user')
                 else if result.state == "QUESTIONS_STATE"
@@ -66,7 +61,9 @@ define [
 
     routes = (
       <Route path="/" handler={App}>
-        <Route name="user" path="user" handler={InitUserHandler}></Route>
+        <Route name="user" path="user" handler={InitUserHandler}>
+            <InitUserHandler />
+        </Route>
         <Route name="questions" path="questions" handler={StepHandler}></Route>
         <Route name="result" path="questions/result"/>
       </Route>
