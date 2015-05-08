@@ -25,7 +25,7 @@ class AnswerController extends Controller
         $session = Yii::$app->session;
         $user = new User();
         $user->name = $session["user_name"];
-        $user->points = $session["user_points"];
+        $user->score = $session["user_score"];
         $user->save();
     }
 
@@ -33,7 +33,7 @@ class AnswerController extends Controller
     {   
         $session = Yii::$app->session;
         $mistakes_count = $session["mistakes_count"];
-        $user_points = $session["user_points"];
+        $user_score = $session["user_score"];
         $point = 0;
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -58,7 +58,7 @@ class AnswerController extends Controller
             $response = ["error" => "NOT_VALID_ANSWER_VALUE", "your_answer" => $value];
             return $response;
         } else {
-            $response = ["origin_lang" => $origin_lang];
+            $response = [];
             $current_word = $session["current_word"];
 
             if ($current_word[$origin_lang] != $value){
@@ -72,7 +72,7 @@ class AnswerController extends Controller
                 $session["mistakes_count"] = $mistakes_count;
 
                 // quiz is over, if {3} mistakes occured
-                if ($mistakes_count >= 20){
+                if ($mistakes_count >= 3){
                     $this->saveUserInfo();
                     $session->destroy();
                     $session->close();
@@ -80,11 +80,11 @@ class AnswerController extends Controller
                 }
             } else {
                 $point = 1;
-                ++$user_points;
-                $session["user_points"] = $user_points;
+                ++$user_score;
+                $session["user_score"] = $user_score;
             }
 
-            $response =  $this->updateResponse($response, ["point" => $point, "user_points" => $user_points, "current_word" => $current_word, "your_answer" => $value, "mistakes_count" => $mistakes_count]);
+            $response =  $this->updateResponse($response, ["point" => $point, "user_score" => $user_score, "mistakes_count" => $mistakes_count]);
             return $response;
         }
     }

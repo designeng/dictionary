@@ -144,6 +144,6 @@ CREATE TABLE quiz (
 CREATE TABLE user (
     id int(11)  unsigned NOT NULL auto_increment,
     name VARCHAR(30) NOT NULL,
-    points int(11) NOT NULL,
+    score int(11) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
