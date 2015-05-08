@@ -66,7 +66,7 @@ define [
             new AjaxRequest(@.state.checkServicePath, data, "POST", "application/json").always @processAnswerResult
         
         processAnswerResult: (result) ->
-            console.debug "result::::>>>>>", result
+            console.debug "processAnswerResult:::::", result
 
             if result.point == 0
                 @.stepWarning.show()
@@ -80,7 +80,7 @@ define [
             new AjaxRequest(@.state.sourceServicePath, null, "GET", "application/json").always @applyStep
 
         applyStep: (result) ->
-            console.debug "result", result
+            console.debug "applyStep result", result
 
             if @.isMounted()
                 @.setState
@@ -104,5 +104,3 @@ define [
                     <input type="button" value="Next" id="stepBtn" className={stepBtnClass} onClick={@.sendStepRequest}/>
                 </form>
             )
-
-    # Step = requireAuth QuizStep

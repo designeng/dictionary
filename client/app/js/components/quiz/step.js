@@ -74,7 +74,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return new AjaxRequest(this.state.checkServicePath, data, "POST", "application/json").always(this.processAnswerResult);
     },
     processAnswerResult: function(result) {
-      console.debug("result::::>>>>>", result);
+      console.debug("processAnswerResult:::::", result);
       if (result.point === 0) {
         this.stepWarning.show();
         return this.stepWarning.text("Try again");
@@ -87,7 +87,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return new AjaxRequest(this.state.sourceServicePath, null, "GET", "application/json").always(this.applyStep);
     },
     applyStep: function(result) {
-      console.debug("result", result);
+      console.debug("applyStep result", result);
       if (this.isMounted()) {
         this.setState({
           id: result.id,

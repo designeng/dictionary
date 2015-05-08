@@ -4,8 +4,8 @@ define [
     "components/ajax/ajaxRequest"
     "./userForm"
     "./step"
-    "./inbox"
-], (React, Router, AjaxRequest, UserForm, Step, Inbox) ->
+    "./result"
+], (React, Router, AjaxRequest, UserForm, Step, ResultHandler) ->
 
     Route = Router.Route
     RouteHandler = Router.RouteHandler
@@ -35,7 +35,6 @@ define [
                 </div>
             )
 
-
     App = React.createClass
 
             contextTypes:
@@ -50,7 +49,7 @@ define [
 
             onGetState: (result) ->
                 console.debug "result:::::::::::", result
-                
+
                 if result.state == "INIT_USER_STATE"
                     @.context.router.transitionTo('user')
                 else if result.state == "QUESTIONS_STATE"
@@ -58,7 +57,6 @@ define [
 
             render: ->
                 name = @.context.router.getCurrentPath()
-                console.debug "name:::::::::::", name
                 return (
                     <div>
                         <RouteHandler key={name}/>
@@ -67,9 +65,9 @@ define [
 
     routes = (
         <Route path="/" handler={App}>
-            <Route name="user" path="user" handler={InitUserHandler}></Route>
-            <Route name="questions" path="questions" handler={StepHandler}></Route>
-            <Route name="result" path="questions/result"/>
+            <Route name="user" path="user" handler={InitUserHandler}/>
+            <Route name="questions" path="questions" handler={StepHandler}/>
+            <Route name="result" path="result" handler={ResultHandler}/>
         </Route>
     )
 

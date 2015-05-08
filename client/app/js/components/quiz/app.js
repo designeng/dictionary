@@ -1,4 +1,4 @@
-define(["react", "reactRouter", "components/ajax/ajaxRequest", "./userForm", "./step", "./inbox"], function(React, Router, AjaxRequest, UserForm, Step, Inbox) {
+define(["react", "reactRouter", "components/ajax/ajaxRequest", "./userForm", "./step", "./result"], function(React, Router, AjaxRequest, UserForm, Step, ResultHandler) {
   var App, InitUserHandler, Link, Route, RouteHandler, StepHandler, routes;
   Route = Router.Route;
   RouteHandler = Router.RouteHandler;
@@ -49,7 +49,6 @@ define(["react", "reactRouter", "components/ajax/ajaxRequest", "./userForm", "./
     render: function() {
       var name;
       name = this.context.router.getCurrentPath();
-      console.debug("name:::::::::::", name);
       return React.createElement("div", null, React.createElement(RouteHandler, {
         "key": name
       }));
@@ -68,7 +67,8 @@ define(["react", "reactRouter", "components/ajax/ajaxRequest", "./userForm", "./
     "handler": StepHandler
   }), React.createElement(Route, {
     "name": "result",
-    "path": "questions/result"
+    "path": "result",
+    "handler": ResultHandler
   }));
   return Router.run(routes, function(Handler) {
     return React.render(React.createElement(Handler, null), document.getElementById("application"));
