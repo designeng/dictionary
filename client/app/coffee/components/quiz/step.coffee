@@ -49,10 +49,15 @@ define [
 
         componentDidMount: ->
             @.stepWarning = $("#stepWarning")
+            @.stepBtn = $("#stepBtn")
+            @.stepBtn.hide()
+            @.takeStep()
 
         handleChange: (event) ->
             checkedInput = @.refs.quizQuestionGroup.getCheckedInput()
             @.selectedValue = checkedInput.value
+
+            @.stepBtn.show()
 
         sendStepRequest: ->
             obj =
@@ -69,16 +74,16 @@ define [
 
             else
                 @.stepWarning.hide()
-                new AjaxRequest(@.state.sourceServicePath, null, "GET", "application/json").always @afterSendRequest
+                @.takeStep()
 
-        afterSendRequest: (result) ->
+        takeStep: ->
+            new AjaxRequest(@.state.sourceServicePath, null, "GET", "application/json").always @applyStep
+
+        applyStep: (result) ->
             console.debug "result", result
 
-            result.choises = _.map result.choises, (item) =>
-                return item + "_" + @.state.stepCount
-
             if @.isMounted()
-                this.setState
+                @.setState
                     id: result.id
                     quizword: result.quizword
                     choice: result.choice
@@ -96,7 +101,7 @@ define [
                     <p className={translateClass}>Translate, please: <span className={quizwordValueClass}>{this.state.quizword}</span></p>
                     <Choice source={this.state.choice} ref="quizQuestionGroup" onChange={this.handleChange}/>
                     <p className={stepWarningClass} id="stepWarning"></p>
-                    <input type="button" value="Next" className={stepBtnClass} onClick={@.sendStepRequest}/>
+                    <input type="button" value="Next" id="stepBtn" className={stepBtnClass} onClick={@.sendStepRequest}/>
                 </form>
             )
 

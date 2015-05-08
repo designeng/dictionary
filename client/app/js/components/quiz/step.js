@@ -54,12 +54,16 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       };
     },
     componentDidMount: function() {
-      return this.stepWarning = $("#stepWarning");
+      this.stepWarning = $("#stepWarning");
+      this.stepBtn = $("#stepBtn");
+      this.stepBtn.hide();
+      return this.takeStep();
     },
     handleChange: function(event) {
       var checkedInput;
       checkedInput = this.refs.quizQuestionGroup.getCheckedInput();
-      return this.selectedValue = checkedInput.value;
+      this.selectedValue = checkedInput.value;
+      return this.stepBtn.show();
     },
     sendStepRequest: function() {
       var data, obj;
@@ -76,16 +80,14 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         return this.stepWarning.text("Try again");
       } else {
         this.stepWarning.hide();
-        return new AjaxRequest(this.state.sourceServicePath, null, "GET", "application/json").always(this.afterSendRequest);
+        return this.takeStep();
       }
     },
-    afterSendRequest: function(result) {
+    takeStep: function() {
+      return new AjaxRequest(this.state.sourceServicePath, null, "GET", "application/json").always(this.applyStep);
+    },
+    applyStep: function(result) {
       console.debug("result", result);
-      result.choises = _.map(result.choises, (function(_this) {
-        return function(item) {
-          return item + "_" + _this.state.stepCount;
-        };
-      })(this));
       if (this.isMounted()) {
         this.setState({
           id: result.id,
@@ -115,6 +117,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       }), React.createElement("input", {
         "type": "button",
         "value": "Next",
+        "id": "stepBtn",
         "className": stepBtnClass,
         "onClick": this.sendStepRequest
       }));
