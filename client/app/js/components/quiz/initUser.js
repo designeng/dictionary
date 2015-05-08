@@ -1,8 +1,8 @@
 define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxRequest"], function(_, $, React, Router, AjaxRequest) {
-  var Link, Route, UserForm;
+  var InitUser, Link, Route, UserForm;
   Route = Router.Route;
   Link = Router.Link;
-  return UserForm = React.createClass({
+  UserForm = React.createClass({
     componentDidMount: function() {
       return $("#userForm").show();
     },
@@ -66,4 +66,26 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       }, "Start quiz"))));
     }
   });
+  InitUser = React.createClass({
+    render: function() {
+      var panelBodyClass, panelClass, panelHeadingClass, panelTitleClass;
+      panelClass = "panel panel-default";
+      panelBodyClass = "panel-body";
+      panelTitleClass = "panel-title";
+      panelHeadingClass = "panel-heading";
+      return React.createElement("div", {
+        "className": panelClass
+      }, React.createElement("div", {
+        "className": panelHeadingClass
+      }, React.createElement("h3", {
+        "className": panelTitleClass
+      }, "Dictionary Quiz")), React.createElement("div", {
+        "className": panelBodyClass
+      }, React.createElement(UserForm, {
+        "endpoint": "../api/web/v1/sessions",
+        "onsuccess": "questions"
+      })));
+    }
+  });
+  return InitUser;
 });

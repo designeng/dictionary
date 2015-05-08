@@ -39,7 +39,8 @@ define [
                 <ul className={listGroupClass}>{choises}</ul>
             )
 
-    Step = 
+    Step = React.createClass
+    
         getInitialState: ->
             return {
                 sourceServicePath: "../api/web/v1/tests"

@@ -59,3 +59,24 @@ define [
                     </div>
                 </form>
             )
+
+    InitUser = React.createClass
+
+        render: ->
+            panelClass = "panel panel-default"
+            panelBodyClass = "panel-body"
+            panelTitleClass = "panel-title"
+            panelHeadingClass = "panel-heading"
+
+            return (
+                <div className={panelClass}>
+                    <div className={panelHeadingClass}>
+                        <h3 className={panelTitleClass}>Dictionary Quiz</h3>
+                    </div>
+                    <div className={panelBodyClass}>
+                        <UserForm endpoint="../api/web/v1/sessions" onsuccess="questions"/>
+                    </div>
+                </div>
+            )
+
+    return InitUser

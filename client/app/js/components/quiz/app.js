@@ -1,31 +1,8 @@
-define(["react", "reactRouter", "components/ajax/ajaxRequest", "./userForm", "./step", "./result"], function(React, Router, AjaxRequest, UserForm, Step, ResultHandler) {
-  var App, InitUserHandler, Link, Route, RouteHandler, StepHandler, routes;
+define(["react", "reactRouter", "components/ajax/ajaxRequest", "./initUser", "./step", "./result"], function(React, Router, AjaxRequest, InitUserHandler, StepHandler, ResultHandler) {
+  var App, Link, Route, RouteHandler, routes;
   Route = Router.Route;
   RouteHandler = Router.RouteHandler;
   Link = Router.Link;
-  StepHandler = React.createClass(Step);
-  InitUserHandler = React.createClass({
-    render: function() {
-      var panelBodyClass, panelClass, panelHeadingClass, panelTitleClass;
-      panelClass = "panel panel-default";
-      panelBodyClass = "panel-body";
-      panelTitleClass = "panel-title";
-      panelHeadingClass = "panel-heading";
-      console.debug("render InitUserHandler");
-      return React.createElement("div", {
-        "className": panelClass
-      }, React.createElement("div", {
-        "className": panelHeadingClass
-      }, React.createElement("h3", {
-        "className": panelTitleClass
-      }, "Dictionary Quiz")), React.createElement("div", {
-        "className": panelBodyClass
-      }, React.createElement(UserForm, {
-        "endpoint": "../api/web/v1/sessions",
-        "onsuccess": "questions"
-      })), React.createElement(RouteHandler, null));
-    }
-  });
   App = React.createClass({
     contextTypes: {
       router: React.PropTypes.func

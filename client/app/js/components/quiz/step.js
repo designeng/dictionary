@@ -45,7 +45,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       }, choises);
     }
   });
-  return Step = {
+  return Step = React.createClass({
     getInitialState: function() {
       return {
         sourceServicePath: "../api/web/v1/tests",
@@ -122,5 +122,5 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         "onClick": this.sendStepRequest
       }));
     }
-  };
+  });
 });
