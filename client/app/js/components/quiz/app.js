@@ -39,6 +39,7 @@ define(["react", "reactRouter", "components/ajax/ajaxRequest", "./userForm", "./
       return new AjaxRequest(stateServicePath, null, "GET", "application/json").always(this.onGetState);
     },
     onGetState: function(result) {
+      console.debug("result:::::::::::", result);
       if (result.state === "INIT_USER_STATE") {
         return this.context.router.transitionTo('user');
       } else if (result.state === "QUESTIONS_STATE") {
@@ -46,7 +47,12 @@ define(["react", "reactRouter", "components/ajax/ajaxRequest", "./userForm", "./
       }
     },
     render: function() {
-      return React.createElement("div", null);
+      var name;
+      name = this.context.router.getCurrentPath();
+      console.debug("name:::::::::::", name);
+      return React.createElement("div", null, React.createElement(RouteHandler, {
+        "key": name
+      }));
     }
   });
   routes = React.createElement(Route, {
@@ -56,7 +62,7 @@ define(["react", "reactRouter", "components/ajax/ajaxRequest", "./userForm", "./
     "name": "user",
     "path": "user",
     "handler": InitUserHandler
-  }, React.createElement(InitUserHandler, null)), React.createElement(Route, {
+  }), React.createElement(Route, {
     "name": "questions",
     "path": "questions",
     "handler": StepHandler

@@ -49,24 +49,28 @@ define [
                 new AjaxRequest(stateServicePath, null, "GET", "application/json").always @onGetState
 
             onGetState: (result) ->
+                console.debug "result:::::::::::", result
+                
                 if result.state == "INIT_USER_STATE"
                     @.context.router.transitionTo('user')
                 else if result.state == "QUESTIONS_STATE"
                     @.context.router.transitionTo('questions')
 
             render: ->
+                name = @.context.router.getCurrentPath()
+                console.debug "name:::::::::::", name
                 return (
-                    <div></div>
+                    <div>
+                        <RouteHandler key={name}/>
+                    </div>
                 )
 
     routes = (
-      <Route path="/" handler={App}>
-        <Route name="user" path="user" handler={InitUserHandler}>
-            <InitUserHandler />
+        <Route path="/" handler={App}>
+            <Route name="user" path="user" handler={InitUserHandler}></Route>
+            <Route name="questions" path="questions" handler={StepHandler}></Route>
+            <Route name="result" path="questions/result"/>
         </Route>
-        <Route name="questions" path="questions" handler={StepHandler}></Route>
-        <Route name="result" path="questions/result"/>
-      </Route>
     )
 
     Router.run routes, (Handler) ->

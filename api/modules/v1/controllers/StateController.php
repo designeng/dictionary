@@ -16,9 +16,9 @@ class StateController extends Controller
         $user_name = $session['user_name'];
 
         if (!$user_name){
-            $state = ["state" => "INIT_USER_STATE"];
+            $state = ["state" => "INIT_USER_STATE", "user_name" => $user_name ];
         } else {
-            $state = ["state" => "QUESTIONS_STATE"];
+            $state = ["state" => "QUESTIONS_STATE", "user_name" => $user_name ];
         }
         
         return $state;
