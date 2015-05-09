@@ -16,4 +16,11 @@ class Word extends ActiveRecord
     {
         return ['id'];
     }
+
+    public function rules()
+    {
+        return [
+            [['en', 'ru'], 'required']
+        ];
+    }
 }

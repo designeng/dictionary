@@ -15,6 +15,11 @@ class StepController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $session = Yii::$app->session;
 
+        // prevent service call for not registred user (player)
+        if(!$session['user_name']){
+            return $response = [];
+        }
+
         $words = $session['words'];
 
         if(!count($words)){

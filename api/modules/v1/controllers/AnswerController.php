@@ -57,7 +57,7 @@ class AnswerController extends Controller
                 $session["mistakes_count"] = $mistakes_count;
 
                 // quiz is over, if {3} mistakes occured
-                if ($mistakes_count >= 3){
+                if ($mistakes_count == 3){
                     UserController::saveCurrentUserResult();
                     $response = $this->updateResponse($response, ["state" => "QUIZ_END_WITH_MISTAKES"]);
                 }

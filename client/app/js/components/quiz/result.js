@@ -12,7 +12,6 @@ define(["underscore", "jquery", "react", "./mixins/ApplicationState", "component
       };
     },
     getInitialState: function() {
-      this.getApplicationState();
       return {
         score: 0
       };

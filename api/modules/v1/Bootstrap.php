@@ -22,6 +22,8 @@ class Bootstrap extends \yii\base\Module
         if (!$session->has('words') && !$session->has('dictionary')){
             $this->words = Word::find()
                 ->asArray()
+                // DEBUG
+                ->limit(4)
                 ->all();
 
             // in dictionary var stored all quiz words

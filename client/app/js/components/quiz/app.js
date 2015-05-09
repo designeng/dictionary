@@ -1,28 +1,9 @@
-define(["react", "reactRouter", "components/ajax/ajaxRequest", "./initUser", "./step", "./result"], function(React, Router, AjaxRequest, InitUserHandler, Step, ResultHandler) {
-  var App, Link, NotFound, NotFoundRoute, Redirect, Route, RouteHandler, StepHandler, requireUserRegistration, routes;
+define(["react", "reactRouter", "components/ajax/ajaxRequest", "./initUser", "./step", "./result"], function(React, Router, AjaxRequest, InitUserHandler, StepHandler, ResultHandler) {
+  var App, NotFound, NotFoundRoute, Redirect, Route, RouteHandler, routes;
   Route = Router.Route;
   NotFoundRoute = Router.NotFoundRoute;
   Redirect = Router.Redirect;
   RouteHandler = Router.RouteHandler;
-  Link = Router.Link;
-  requireUserRegistration = (function(_this) {
-    return function(Component) {
-      var UserRegistration;
-      UserRegistration = React.createClass({
-        "static": {
-          willTransitionTo: function(transition) {
-            return console.debug("UserRegistration willTransitionTo.....", transition);
-          }
-        },
-        render: function() {
-          console.debug("UserRegistration render");
-          return React.createElement(Component, React.__spread({}, this.props));
-        }
-      });
-      return UserRegistration;
-    };
-  })(this);
-  StepHandler = Step;
   App = React.createClass({
     contextTypes: {
       router: React.PropTypes.func

@@ -18,7 +18,7 @@ define [
             method: "GET"
 
         getInitialState: ->
-            @.getApplicationState()
+            # @.getApplicationState()
             return {
                 score: 0
             }
