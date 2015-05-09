@@ -14,8 +14,6 @@ define [
         componentDidMount: ->
             $("#userForm").show()
 
-        onChange: ->
-
         validateForm: ->
             userName = $.trim($("#userName").val())
             if !userName
@@ -51,7 +49,7 @@ define [
                 <form className={formClass} id="userForm">
                     <div className={formGroupClass}>
                         <div className={inputWrapperClass}>
-                            <input type="text" className={controlClass} value="azxcv" id="userName" name="userName" placeholder="User Name" onChange={@.onChange}/>
+                            <input type="text" className={controlClass} value="azxcv" id="userName" name="userName" placeholder="User Name"/>
                         </div>
                         <div className={inputWrapperClass}>
                             <button type="button" className={controlBtnClass} onClick={@.userEndpointRequest}>Start quiz</button>

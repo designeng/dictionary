@@ -2,12 +2,8 @@ define [
     "underscore"
     "jquery"
     "react"
-    "reactRouter"
     "components/ajax/ajaxRequest"
-], (_, $, React, Router, AjaxRequest) ->
-
-    Route = Router.Route
-    Link = Router.Link
+], (_, $, React, AjaxRequest) ->
 
     Result = React.createClass
 

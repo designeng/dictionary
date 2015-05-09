@@ -6,7 +6,6 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
     componentDidMount: function() {
       return $("#userForm").show();
     },
-    onChange: function() {},
     validateForm: function() {
       var userName;
       userName = $.trim($("#userName").val());
@@ -55,8 +54,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         "value": "azxcv",
         "id": "userName",
         "name": "userName",
-        "placeholder": "User Name",
-        "onChange": this.onChange
+        "placeholder": "User Name"
       })), React.createElement("div", {
         "className": inputWrapperClass
       }, React.createElement("button", {

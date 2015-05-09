@@ -9,6 +9,7 @@ define [
 
     Route = Router.Route
     RouteHandler = Router.RouteHandler
+    
     Link = Router.Link
 
     App = React.createClass
@@ -48,4 +49,4 @@ define [
     )
 
     Router.run routes, (Root) ->
-      React.render <Root/>, document.getElementById "application"
+        React.render <Root/>, document.getElementById "application"

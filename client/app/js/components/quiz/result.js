@@ -1,7 +1,5 @@
-define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxRequest"], function(_, $, React, Router, AjaxRequest) {
-  var Link, Result, Route;
-  Route = Router.Route;
-  Link = Router.Link;
+define(["underscore", "jquery", "react", "components/ajax/ajaxRequest"], function(_, $, React, AjaxRequest) {
+  var Result;
   return Result = React.createClass({
     componentDidMount: function() {},
     render: function() {

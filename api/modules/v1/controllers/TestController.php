@@ -15,9 +15,14 @@ class TestController extends Controller
         $session = Yii::$app->session;
 
         $words = $session['words'];
+
         if(!count($words)){
-            return ["state"=> "QUIZ_END_WORDS"];
+            return $response = [
+                "state"=> "QUIZ_END_WORDS", 
+                "user_score" => $session["user_score"]
+            ];
         }
+
         $dictionary = $session['dictionary'];
 
         shuffle($words);
@@ -48,8 +53,7 @@ class TestController extends Controller
 
         $session['words'] = $words;
 
-        $randomWord = [
-            "id" => $randomWord["id"],
+        $response = [
             "quizword" => $randomWord[$lang_keys[0]],
             "choice" => $additionalChoice,
             "state" => "QUIZ_QUESTION"
@@ -61,7 +65,7 @@ class TestController extends Controller
             unset(Yii::$app->session['words']);
         }
 
-        return $randomWord;
+        return $response;
     }
 }
 
