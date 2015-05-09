@@ -8,9 +8,9 @@ define [
 ], (React, Router, AjaxRequest, InitUserHandler, StepHandler, ResultHandler) ->
 
     Route = Router.Route
+    NotFoundRoute = Router.NotFoundRoute
+    Redirect = Router.Redirect
     RouteHandler = Router.RouteHandler
-
-    Link = Router.Link
 
     App = React.createClass
 
@@ -38,11 +38,28 @@ define [
                     </div>
                 )
 
+    NotFound = React.createClass
+        contextTypes:
+            router: React.PropTypes.func
+
+        componentDidMount: ->
+            setTimeout () =>
+                @.context.router.transitionTo('user') 
+            , 2000
+
+        render: ->
+            NotFoundWarningClass = "bg-danger notfound-warning"
+            return (
+                <div><p className={NotFoundWarningClass}>Sorry, you are trying to access non-existed page. After couple of seconds the browser will be redirected to initial quiz page.</p></div>
+            )
+
     routes = (
         <Route path="/" handler={App}>
             <Route name="user" path="user" handler={InitUserHandler}/>
             <Route name="questions" path="questions" handler={StepHandler}/>
             <Route name="result" path="result" handler={ResultHandler}/>
+            <NotFoundRoute handler={NotFound}/>
+            <Redirect from="quiz" to="user" />
         </Route>
     )
 

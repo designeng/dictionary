@@ -34,12 +34,14 @@ define [
         onChangeHandler: ->
             return true
 
+        onSubmit: ->
+            @.clickHandler()
+            return false
+
         userEndpointRequest: (data) ->
-                new AjaxRequest(@.props.endpoint, data, @.props.method, "application/json").always @afterSendRequest
+            new AjaxRequest(@.props.endpoint, data, @.props.method, "application/json").always @afterSendRequest
 
         afterSendRequest: (result) ->
-            console.debug "result", result.registrationState
-
             if @.isMounted()
                 this.setState
                     id: result.id
@@ -49,6 +51,7 @@ define [
             if result? and !result.error
                 @.context.router.transitionTo(@.props.next)
                 $("#userForm").hide()
+            return false
 
         render: ->
             formClass = "form-horizontal"
@@ -58,13 +61,13 @@ define [
             formGroupClass = "form-group"
 
             return (
-                <form className={formClass} id="userForm">
+                <form className={formClass} id="userForm" onSubmit={@.onSubmit}>
                     <div className={formGroupClass}>
                         <div className={inputWrapperClass}>
                             <input type="text" className={controlClass} id="userName" name="userName" placeholder="User Name" onChange={@.onChangeHandler}/>
                         </div>
                         <div className={inputWrapperClass}>
-                            <button type="button" className={controlBtnClass} onClick={@.clickHandler}>Start quiz</button>
+                            <button type="button" id="userFormBtn" className={controlBtnClass} onClick={@.clickHandler}>Start quiz</button>
                         </div>
                     </div>
                 </form>

@@ -25,17 +25,22 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         data = JSON.stringify({
           username: userName
         });
-        return this.userEndpointRequest(data);
+        this.userEndpointRequest(data);
       }
+      return false;
     },
     onChangeHandler: function() {
       return true;
     },
+    onSubmit: function() {
+      this.clickHandler();
+      return false;
+    },
     userEndpointRequest: function(data) {
-      return new AjaxRequest(this.props.endpoint, data, this.props.method, "application/json").always(this.afterSendRequest);
+      new AjaxRequest(this.props.endpoint, data, this.props.method, "application/json").always(this.afterSendRequest);
+      return false;
     },
     afterSendRequest: function(result) {
-      console.debug("result", result.registrationState);
       if (this.isMounted()) {
         this.setState({
           id: result.id,
@@ -45,8 +50,9 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       }
       if ((result != null) && !result.error) {
         this.context.router.transitionTo(this.props.next);
-        return $("#userForm").hide();
+        $("#userForm").hide();
       }
+      return false;
     },
     render: function() {
       var controlBtnClass, controlClass, formClass, formGroupClass, inputWrapperClass;
@@ -57,7 +63,8 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       formGroupClass = "form-group";
       return React.createElement("form", {
         "className": formClass,
-        "id": "userForm"
+        "id": "userForm",
+        "onSubmit": this.onSubmit
       }, React.createElement("div", {
         "className": formGroupClass
       }, React.createElement("div", {
@@ -73,6 +80,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         "className": inputWrapperClass
       }, React.createElement("button", {
         "type": "button",
+        "id": "userFormBtn",
         "className": controlBtnClass,
         "onClick": this.clickHandler
       }, "Start quiz"))));

@@ -3,15 +3,19 @@ define [
     "jquery"
     "react"
     "./choice"
+    "./mixins/ApplicationState"
     "components/ajax/ajaxRequest"
-], (_, $, React, Choice, AjaxRequest) ->
+], (_, $, React, Choice, ApplicationState, AjaxRequest) ->
 
     Step = React.createClass
+
+        mixins: [ApplicationState]
 
         contextTypes:
             router: React.PropTypes.func
 
         getInitialState: ->
+            @.getApplicationState()
             return {
                 attempts: []
                 maxAttempsCount: 2
@@ -106,7 +110,7 @@ define [
             @.buttonEnableState(false)
 
         cleanPreviousChoice: ->
-            @.refs.quizQuestionGroup.uncheck()
+            @.refs.quizQuestionGroup.uncheck() if @.refs.quizQuestionGroup?
 
         buttonEnableState: (state) ->
             if !state

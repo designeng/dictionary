@@ -1,10 +1,12 @@
-define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxRequest"], function(_, $, React, Choice, AjaxRequest) {
+define(["underscore", "jquery", "react", "./choice", "./mixins/ApplicationState", "components/ajax/ajaxRequest"], function(_, $, React, Choice, ApplicationState, AjaxRequest) {
   var Step;
   return Step = React.createClass({
+    mixins: [ApplicationState],
     contextTypes: {
       router: React.PropTypes.func
     },
     getInitialState: function() {
+      this.getApplicationState();
       return {
         attempts: [],
         maxAttempsCount: 2,
@@ -94,7 +96,9 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
       return this.buttonEnableState(false);
     },
     cleanPreviousChoice: function() {
-      return this.refs.quizQuestionGroup.uncheck();
+      if (this.refs.quizQuestionGroup != null) {
+        return this.refs.quizQuestionGroup.uncheck();
+      }
     },
     buttonEnableState: function(state) {
       if (!state) {
