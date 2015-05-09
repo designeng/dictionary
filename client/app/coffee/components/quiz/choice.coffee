@@ -1,7 +1,8 @@
 define [
     "underscore"
     "jquery"
-], (_, $) ->
+    "react"
+], (_, $, React) ->
 
     Choice = React.createClass
 

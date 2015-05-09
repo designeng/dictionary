@@ -1,4 +1,4 @@
-define(["underscore", "jquery"], function(_, $) {
+define(["underscore", "jquery", "react"], function(_, $, React) {
   var Choice;
   return Choice = React.createClass({
     getRadios: function() {

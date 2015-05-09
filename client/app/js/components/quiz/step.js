@@ -16,6 +16,7 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
     },
     handleChange: function(event) {
       var checkedInput;
+      this.buttonEnableState(true);
       checkedInput = this.refs.quizQuestionGroup.getCheckedInput();
       this.selectedValue = checkedInput.value;
       return this.stepBtn.show();
@@ -42,7 +43,7 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
       return new AjaxRequest(this.state.sourceServicePath, null, "GET", "application/json").always(this.applyStep);
     },
     applyStep: function(result) {
-      console.debug("applyStep result", result);
+      console.debug("applyStep result:::::", result);
       if (this.isMounted()) {
         this.setState({
           id: result.id,
@@ -51,10 +52,18 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
         });
       }
       this.state.stepCount++;
-      return this.cleanPreviousChoice();
+      this.cleanPreviousChoice();
+      return this.buttonEnableState(false);
     },
     cleanPreviousChoice: function() {
       return this.refs.quizQuestionGroup.uncheck();
+    },
+    buttonEnableState: function(state) {
+      if (!state) {
+        return this.stepBtn.attr("disabled", "disabled");
+      } else {
+        return this.stepBtn.removeAttr("disabled");
+      }
     },
     render: function() {
       var quizwordValueClass, stepBtnClass, stepWarningClass, translateClass;

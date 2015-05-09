@@ -22,6 +22,8 @@ define [
             @.takeStep()
 
         handleChange: (event) ->
+            @.buttonEnableState(true)
+
             checkedInput = @.refs.quizQuestionGroup.getCheckedInput()
             @.selectedValue = checkedInput.value
 
@@ -48,7 +50,7 @@ define [
             new AjaxRequest(@.state.sourceServicePath, null, "GET", "application/json").always @applyStep
 
         applyStep: (result) ->
-            console.debug "applyStep result", result
+            console.debug "applyStep result:::::", result
 
             if @.isMounted()
                 @.setState
@@ -60,8 +62,16 @@ define [
 
             @.cleanPreviousChoice()
 
+            @.buttonEnableState(false)
+
         cleanPreviousChoice: ->
             @.refs.quizQuestionGroup.uncheck()
+
+        buttonEnableState: (state) ->
+            if !state
+                @.stepBtn.attr("disabled", "disabled")
+            else
+                @.stepBtn.removeAttr("disabled")
 
         render: ->
             translateClass = "bg-info quizword"
