@@ -32,7 +32,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return true;
     },
     userEndpointRequest: function(data) {
-      return new AjaxRequest(this.props.endpoint, data, "POST", "application/json").always(this.afterSendRequest);
+      return new AjaxRequest(this.props.endpoint, data, this.props.method, "application/json").always(this.afterSendRequest);
     },
     afterSendRequest: function(result) {
       console.debug("result", result.registrationState);
@@ -96,6 +96,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         "className": panelBodyClass
       }, React.createElement(UserForm, {
         "endpoint": "../api/web/v1/sessions",
+        "method": "POST",
         "next": "questions"
       })));
     }

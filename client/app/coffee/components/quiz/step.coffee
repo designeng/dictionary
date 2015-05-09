@@ -64,6 +64,8 @@ define [
             console.debug "processAnswerResult:::::", result
 
             if result.state == "QUIZ_END_WITH_MISTAKES"
+                console.debug "-----------QUIZ_END_WITH_MISTAKES:::"
+                
                 return @.context.router.transitionTo(@.props.resultRoutePath)
             
             # success answer

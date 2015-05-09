@@ -54,6 +54,7 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
     processAnswerResult: function(result) {
       console.debug("processAnswerResult:::::", result);
       if (result.state === "QUIZ_END_WITH_MISTAKES") {
+        console.debug("-----------QUIZ_END_WITH_MISTAKES:::");
         return this.context.router.transitionTo(this.props.resultRoutePath);
       }
       if (result.point === 1) {

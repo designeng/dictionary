@@ -12,9 +12,20 @@ class SessionController extends Controller
     public function actionIndex()
     {   
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        Yii::$app->session->destroy();
-        Yii::$app->session->close();
-        return array();
+        $params = Yii::$app->request->get();
+        $session = Yii::$app->session;
+        $response = [];
+
+        // add user score to response
+        if($params["score"]){
+            $response = array_merge($response, ["user_score" => $session["user_score"]]);
+        }
+
+        // destroy session on default
+        $session->destroy();
+        $session->close();
+
+        return $response;
     }
 
     public function actionCreate()

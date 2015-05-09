@@ -35,7 +35,7 @@ define [
             return true
 
         userEndpointRequest: (data) ->
-                new AjaxRequest(@.props.endpoint, data, "POST", "application/json").always @afterSendRequest
+                new AjaxRequest(@.props.endpoint, data, @.props.method, "application/json").always @afterSendRequest
 
         afterSendRequest: (result) ->
             console.debug "result", result.registrationState
@@ -84,7 +84,7 @@ define [
                         <h3 className={panelTitleClass}>Dictionary Quiz</h3>
                     </div>
                     <div className={panelBodyClass}>
-                        <UserForm endpoint="../api/web/v1/sessions" next="questions"/>
+                        <UserForm endpoint="../api/web/v1/sessions" method="POST" next="questions"/>
                     </div>
                 </div>
             )

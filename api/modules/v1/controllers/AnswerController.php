@@ -72,10 +72,8 @@ class AnswerController extends Controller
                 $session["mistakes_count"] = $mistakes_count;
 
                 // quiz is over, if {3} mistakes occured
-                if ($mistakes_count >= 3){
+                if ($mistakes_count >= 1){
                     $this->saveUserInfo();
-                    $session->destroy();
-                    $session->close();
                     $response = $this->updateResponse($response, ["state" => "QUIZ_END_WITH_MISTAKES"]);
                 }
             } else {
