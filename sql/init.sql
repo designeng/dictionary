@@ -130,7 +130,7 @@ INSERT INTO word (en, ru) VALUES
     ("peach", "персик"),
     ("apricot", "абрикос"),
     ("mango", "манго"),
-    ("pear", "слива"),
+    ("plum", "слива"),
     ("pomegranate", "гранат"),
     ("cherry", "вишня");
 

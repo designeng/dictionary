@@ -43,8 +43,6 @@ define [
             @.stepBtn.show()
 
         btnClickHandler: ->
-            console.debug "btnClickHandler........", @state.attempts
-
             @.sendStepRequest()
             @.registerAttempt()
 
@@ -78,6 +76,7 @@ define [
 
                 if @.state.attempts.length < @.state.maxAttempsCount
                     @.stepWarning.text "Wrong answer! Try once more"
+                    @.buttonEnableState(false)
                     @.cleanPreviousChoice()
                 else
                     return @.next()

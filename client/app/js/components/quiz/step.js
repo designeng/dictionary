@@ -33,7 +33,6 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
       return this.stepBtn.show();
     },
     btnClickHandler: function() {
-      console.debug("btnClickHandler........", this.state.attempts);
       this.sendStepRequest();
       return this.registerAttempt();
     },
@@ -64,6 +63,7 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
         this.stepWarning.show();
         if (this.state.attempts.length < this.state.maxAttempsCount) {
           this.stepWarning.text("Wrong answer! Try once more");
+          this.buttonEnableState(false);
           return this.cleanPreviousChoice();
         } else {
           return this.next();
