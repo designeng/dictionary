@@ -7,10 +7,23 @@ define [
 
     Result = React.createClass
 
+        getDefaultProps: ->
+            userScorePath: "...path"
+
         componentDidMount: ->
+            @.getUserScore()
+
+        getUserScore: ->
+            new AjaxRequest(@.props.userScorePath, null, "GET", "application/json").always @onGetUserScore
+
+        onGetUserScore: (result) ->
+            @.setState
+                score: result.score
 
         render: ->
             resultClass = "result"
             return (
-                <div className={resultClass}>RESULT</div>
+                <div>
+                    <p className={resultClass} id="result">Quiz is over. Yor result: {@.state.score}</p>
+                </div>
             )

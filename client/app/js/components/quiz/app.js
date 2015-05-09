@@ -8,15 +8,14 @@ define(["react", "reactRouter", "components/ajax/ajaxRequest", "./initUser", "./
       router: React.PropTypes.func
     },
     componentDidMount: function() {
-      return this.getState();
+      return this.getApplicationState();
     },
-    getState: function() {
+    getApplicationState: function() {
       var stateServicePath;
       stateServicePath = "../api/web/v1/states";
-      return new AjaxRequest(stateServicePath, null, "GET", "application/json").always(this.onGetState);
+      return new AjaxRequest(stateServicePath, null, "GET", "application/json").always(this.onGetApplicationState);
     },
-    onGetState: function(result) {
-      console.debug("result:::::::::::", result);
+    onGetApplicationState: function(result) {
       if (result.state === "INIT_USER_STATE") {
         return this.context.router.transitionTo('user');
       } else if (result.state === "QUESTIONS_STATE") {

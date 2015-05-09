@@ -11,6 +11,9 @@ define [
 
     UserForm = React.createClass
 
+        contextTypes:
+            router: React.PropTypes.func
+
         componentDidMount: ->
             $("#userForm").show()
 
@@ -19,14 +22,23 @@ define [
             if !userName
                 alert "Input userName!"
                 return false
+            return userName
+
+        clickHandler: ->
+            userName = @.validateForm()
+            if userName
+                data = JSON.stringify
+                    username: userName
+                @.userEndpointRequest(data)
+
+        onChangeHandler: ->
             return true
 
-        userEndpointRequest: ->
-            if @.validateForm()
-                new AjaxRequest(@.props.endpoint, null, "GET", "application/json").always @afterSendRequest
+        userEndpointRequest: (data) ->
+                new AjaxRequest(@.props.endpoint, data, "POST", "application/json").always @afterSendRequest
 
         afterSendRequest: (result) ->
-            console.debug "result", result
+            console.debug "result", result.registrationState
 
             if @.isMounted()
                 this.setState
@@ -35,8 +47,7 @@ define [
                     choises: result.choises
 
             if result? and !result.error
-
-                window.location.hash = "questions"
+                @.context.router.transitionTo(@.props.next)
                 $("#userForm").hide()
 
         render: ->
@@ -45,14 +56,15 @@ define [
             controlBtnClass = "btn btn-info"
             inputWrapperClass = "col-sm-10"
             formGroupClass = "form-group"
+
             return (
                 <form className={formClass} id="userForm">
                     <div className={formGroupClass}>
                         <div className={inputWrapperClass}>
-                            <input type="text" className={controlClass} value="azxcv" id="userName" name="userName" placeholder="User Name"/>
+                            <input type="text" className={controlClass} value="azxcv" id="userName" name="userName" placeholder="User Name" onChange={@.onChangeHandler}/>
                         </div>
                         <div className={inputWrapperClass}>
-                            <button type="button" className={controlBtnClass} onClick={@.userEndpointRequest}>Start quiz</button>
+                            <button type="button" className={controlBtnClass} onClick={@.clickHandler}>Start quiz</button>
                         </div>
                     </div>
                 </form>
@@ -72,7 +84,7 @@ define [
                         <h3 className={panelTitleClass}>Dictionary Quiz</h3>
                     </div>
                     <div className={panelBodyClass}>
-                        <UserForm endpoint="../api/web/v1/sessions" onsuccess="questions"/>
+                        <UserForm endpoint="../api/web/v1/sessions" next="questions"/>
                     </div>
                 </div>
             )

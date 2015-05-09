@@ -9,7 +9,7 @@ define [
 
     Route = Router.Route
     RouteHandler = Router.RouteHandler
-    
+
     Link = Router.Link
 
     App = React.createClass
@@ -18,15 +18,13 @@ define [
                 router: React.PropTypes.func
 
             componentDidMount: ->
-                @.getState()
+                @.getApplicationState()
 
-            getState: ->
+            getApplicationState: ->
                 stateServicePath = "../api/web/v1/states"
-                new AjaxRequest(stateServicePath, null, "GET", "application/json").always @onGetState
+                new AjaxRequest(stateServicePath, null, "GET", "application/json").always @onGetApplicationState
 
-            onGetState: (result) ->
-                console.debug "result:::::::::::", result
-
+            onGetApplicationState: (result) ->
                 if result.state == "INIT_USER_STATE"
                     @.context.router.transitionTo('user')
                 else if result.state == "QUESTIONS_STATE"

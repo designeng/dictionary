@@ -3,6 +3,9 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
   Route = Router.Route;
   Link = Router.Link;
   UserForm = React.createClass({
+    contextTypes: {
+      router: React.PropTypes.func
+    },
     componentDidMount: function() {
       return $("#userForm").show();
     },
@@ -13,15 +16,26 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         alert("Input userName!");
         return false;
       }
-      return true;
+      return userName;
     },
-    userEndpointRequest: function() {
-      if (this.validateForm()) {
-        return new AjaxRequest(this.props.endpoint, null, "GET", "application/json").always(this.afterSendRequest);
+    clickHandler: function() {
+      var data, userName;
+      userName = this.validateForm();
+      if (userName) {
+        data = JSON.stringify({
+          username: userName
+        });
+        return this.userEndpointRequest(data);
       }
     },
+    onChangeHandler: function() {
+      return true;
+    },
+    userEndpointRequest: function(data) {
+      return new AjaxRequest(this.props.endpoint, data, "POST", "application/json").always(this.afterSendRequest);
+    },
     afterSendRequest: function(result) {
-      console.debug("result", result);
+      console.debug("result", result.registrationState);
       if (this.isMounted()) {
         this.setState({
           id: result.id,
@@ -30,7 +44,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         });
       }
       if ((result != null) && !result.error) {
-        window.location.hash = "questions";
+        this.context.router.transitionTo(this.props.next);
         return $("#userForm").hide();
       }
     },
@@ -54,13 +68,14 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         "value": "azxcv",
         "id": "userName",
         "name": "userName",
-        "placeholder": "User Name"
+        "placeholder": "User Name",
+        "onChange": this.onChangeHandler
       })), React.createElement("div", {
         "className": inputWrapperClass
       }, React.createElement("button", {
         "type": "button",
         "className": controlBtnClass,
-        "onClick": this.userEndpointRequest
+        "onClick": this.clickHandler
       }, "Start quiz"))));
     }
   });
@@ -81,7 +96,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         "className": panelBodyClass
       }, React.createElement(UserForm, {
         "endpoint": "../api/web/v1/sessions",
-        "onsuccess": "questions"
+        "next": "questions"
       })));
     }
   });

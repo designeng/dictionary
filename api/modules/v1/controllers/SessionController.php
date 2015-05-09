@@ -16,4 +16,16 @@ class SessionController extends Controller
         Yii::$app->session->close();
         return array();
     }
+
+    public function actionCreate()
+    {   
+        $session = Yii::$app->session;
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $data = Yii::$app->request->post();
+
+        $username = $session["user_name"] = trim($data['username']);
+
+        return ["registrationState" => "SUCCESS", "registeredUser" => $username];
+    }
 }

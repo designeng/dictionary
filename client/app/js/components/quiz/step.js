@@ -1,15 +1,26 @@
 define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxRequest"], function(_, $, React, Choice, AjaxRequest) {
   var Step;
   return Step = React.createClass({
+    contextTypes: {
+      router: React.PropTypes.func
+    },
     getInitialState: function() {
       return {
-        sourceServicePath: "../api/web/v1/tests",
-        checkServicePath: "../api/web/v1/answers",
+        attempts: [],
+        maxAttempsCount: 2,
         stepCount: 0
+      };
+    },
+    getDefaultProps: function() {
+      return {
+        resultRoutePath: "result",
+        stepServicePath: "../api/web/v1/tests",
+        checkAnswerServicePath: "../api/web/v1/answers"
       };
     },
     componentDidMount: function() {
       this.stepWarning = $("#stepWarning");
+      this.stepWarning.hide();
       this.stepBtn = $("#stepBtn");
       this.stepBtn.hide();
       return this.takeStep();
@@ -21,29 +32,51 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
       this.selectedValue = checkedInput.value;
       return this.stepBtn.show();
     },
+    btnClickHandler: function() {
+      console.debug("btnClickHandler........", this.state.attempts);
+      this.sendStepRequest();
+      return this.registerAttempt();
+    },
+    registerAttempt: function() {
+      return this.state.attempts.push(1);
+    },
+    resetStepAttempts: function() {
+      return this.state.attempts = [];
+    },
     sendStepRequest: function() {
       var data, obj;
       obj = {
         value: this.selectedValue
       };
       data = JSON.stringify(obj);
-      return new AjaxRequest(this.state.checkServicePath, data, "POST", "application/json").always(this.processAnswerResult);
+      return new AjaxRequest(this.props.checkAnswerServicePath, data, "POST", "application/json").always(this.processAnswerResult);
     },
     processAnswerResult: function(result) {
       console.debug("processAnswerResult:::::", result);
-      if (result.point === 0) {
-        this.stepWarning.show();
-        return this.stepWarning.text("Try again");
+      if (result.state === "QUIZ_END_WITH_MISTAKES") {
+        return this.context.router.transitionTo(this.props.resultRoutePath);
+      }
+      if (result.point === 1) {
+        return this.next();
       } else {
-        this.stepWarning.hide();
-        return this.takeStep();
+        this.stepWarning.show();
+        if (this.state.attempts.length < this.state.maxAttempsCount) {
+          this.stepWarning.text("Try again");
+          return this.cleanPreviousChoice();
+        } else {
+          return this.next();
+        }
       }
     },
+    next: function() {
+      this.stepWarning.hide();
+      this.resetStepAttempts();
+      return this.takeStep();
+    },
     takeStep: function() {
-      return new AjaxRequest(this.state.sourceServicePath, null, "GET", "application/json").always(this.applyStep);
+      return new AjaxRequest(this.props.stepServicePath, null, "GET", "application/json").always(this.applyStep);
     },
     applyStep: function(result) {
-      console.debug("applyStep result:::::", result);
       if (this.isMounted()) {
         this.setState({
           id: result.id,
@@ -87,7 +120,7 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
         "value": "Next",
         "id": "stepBtn",
         "className": stepBtnClass,
-        "onClick": this.sendStepRequest
+        "onClick": this.btnClickHandler
       }));
     }
   });
