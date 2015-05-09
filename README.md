@@ -3,25 +3,29 @@
 
 ##Установка приложения
 -------------
-
-
-
-
-Допустим, приложение установлено в директорию dictionary в htdocs сервера Apache (номер порта по умолчанию 80). Откройте страницу в браузере
+1. Скачайте репозиторий
 ~~~
-http://127.0.0.1:[номер-порта]/dictionary/web/#/quiz
+git clone https://github.com/designeng/dictionary.git
+~~~
+2. Скопируйте проект в соответствующую директорию на сервере.
+3. Проверьте, соответствует ли сервер необходимым требованиям для работы yii-фреймворка, запустив скрипт (здесь и ниже предполагается, что приложение установлено в директорию dictionary на localhost, с номером порта по умолчанию 80)
+~~~
+http://127.0.0.1/dictionary/requirements.php
+~~~
+
+3. Создайте базу данных, обеспечивающую работу приложения.
+4. Для создания таблиц и заполнения их fake-данными запустите скрипт sql/init.sql на созданной базе данных.
+
+Откройте страницу в браузере
+~~~
+http://127.0.0.1/dictionary/web/#/quiz
 ~~~
 
 
 
 
 
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
-
-~~~
-http://localhost/basic/web/
-~~~
+Работа one-page приложения протестирована в браузерах Chrome (v42), Safari (v7.0), Firefox (v37)
 
 
 CONFIGURATION
