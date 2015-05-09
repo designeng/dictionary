@@ -34,17 +34,12 @@ define [
             @.stepWarning.hide()
 
             @.stepBtn = $("#stepBtn")
-            @.stepBtn.hide()
 
             @.takeStep()
 
         handleChange: (event) ->
             @.buttonEnableState(true)
-
-            checkedInput = @.refs.quizQuestionGroup.getCheckedInput()
-            @.selectedValue = checkedInput.value
-
-            @.stepBtn.show()
+            @.selectedValue = @.refs.quizQuestionGroup.getCheckedInput().value
 
         btnClickHandler: ->
             @.sendStepRequest()

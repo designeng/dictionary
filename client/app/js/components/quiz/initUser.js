@@ -7,16 +7,23 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       router: React.PropTypes.func
     },
     componentDidMount: function() {
-      return $("#userForm").show();
+      $("#userForm").show();
+      this.formWarning = $("#formWarning");
+      this.userNameFormGroup = $("#userNameFormGroup");
+      return this.formWarning.hide();
     },
     validateForm: function() {
       var userName;
       userName = $.trim($("#userName").val());
       if (!userName) {
-        alert("Input userName!");
+        this.formWarning.text("User name is required!").show();
+        this.userNameFormGroup.addClass("has-error");
         return false;
+      } else {
+        this.formWarning.hide();
+        this.userNameFormGroup.removeClass("has-error");
+        return userName;
       }
-      return userName;
     },
     clickHandler: function() {
       var data, userName;
@@ -25,9 +32,8 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
         data = JSON.stringify({
           username: userName
         });
-        this.userEndpointRequest(data);
+        return this.userEndpointRequest(data);
       }
-      return false;
     },
     onChangeHandler: function() {
       return true;
@@ -37,8 +43,7 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return false;
     },
     userEndpointRequest: function(data) {
-      new AjaxRequest(this.props.endpoint, data, this.props.method, "application/json").always(this.afterSendRequest);
-      return false;
+      return new AjaxRequest(this.props.endpoint, data, this.props.method, "application/json").always(this.afterSendRequest);
     },
     afterSendRequest: function(result) {
       if (this.isMounted()) {
@@ -55,23 +60,28 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       return false;
     },
     render: function() {
-      var controlBtnClass, controlClass, formClass, formGroupClass, inputWrapperClass;
+      var controlBtnClass, formClass, formGroupClass, formWarningClass, inputWrapperClass, userNameControlClass;
       formClass = "form-horizontal";
-      controlClass = "col-sm-2";
-      controlBtnClass = "btn btn-info";
+      userNameControlClass = "user-name-input col-sm-2 form-control";
+      controlBtnClass = "btn btn-info user-btn";
       inputWrapperClass = "col-sm-10";
       formGroupClass = "form-group";
+      formWarningClass = "bg-danger warning";
       return React.createElement("form", {
         "className": formClass,
         "id": "userForm",
         "onSubmit": this.onSubmit
-      }, React.createElement("div", {
+      }, React.createElement("p", {
+        "className": formWarningClass,
+        "id": "formWarning"
+      }), React.createElement("div", {
         "className": formGroupClass
       }, React.createElement("div", {
-        "className": inputWrapperClass
+        "className": inputWrapperClass,
+        "id": "userNameFormGroup"
       }, React.createElement("input", {
         "type": "text",
-        "className": controlClass,
+        "className": userNameControlClass,
         "id": "userName",
         "name": "userName",
         "placeholder": "User Name",

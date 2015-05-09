@@ -7,7 +7,6 @@ define(["components/ajax/ajaxRequest"], function(AjaxRequest) {
       return new AjaxRequest(stateServicePath, null, "GET", "application/json").always(this.onGetApplicationState);
     },
     onGetApplicationState: function(result) {
-      console.debug("RES:::", result);
       if (result.state === "INIT_USER_STATE") {
         return this.context.router.transitionTo('user');
       } else if (result.state === "QUESTIONS_STATE") {

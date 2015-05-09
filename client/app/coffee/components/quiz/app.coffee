@@ -48,7 +48,7 @@ define [
             , 2000
 
         render: ->
-            NotFoundWarningClass = "bg-danger notfound-warning"
+            NotFoundWarningClass = "bg-danger warning"
             return (
                 <div><p className={NotFoundWarningClass}>Sorry, you are trying to access non-existed page. After couple of seconds the browser will be redirected to initial quiz page.</p></div>
             )

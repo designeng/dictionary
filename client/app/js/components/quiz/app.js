@@ -44,7 +44,7 @@ define(["react", "reactRouter", "components/ajax/ajaxRequest", "./initUser", "./
     },
     render: function() {
       var NotFoundWarningClass;
-      NotFoundWarningClass = "bg-danger notfound-warning";
+      NotFoundWarningClass = "bg-danger warning";
       return React.createElement("div", null, React.createElement("p", {
         "className": NotFoundWarningClass
       }, "Sorry, you are trying to access non-existed page. After couple of seconds the browser will be redirected to initial quiz page."));

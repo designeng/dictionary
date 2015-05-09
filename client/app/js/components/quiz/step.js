@@ -24,15 +24,11 @@ define(["underscore", "jquery", "react", "./choice", "./mixins/ApplicationState"
       this.stepWarning = $("#stepWarning");
       this.stepWarning.hide();
       this.stepBtn = $("#stepBtn");
-      this.stepBtn.hide();
       return this.takeStep();
     },
     handleChange: function(event) {
-      var checkedInput;
       this.buttonEnableState(true);
-      checkedInput = this.refs.quizQuestionGroup.getCheckedInput();
-      this.selectedValue = checkedInput.value;
-      return this.stepBtn.show();
+      return this.selectedValue = this.refs.quizQuestionGroup.getCheckedInput().value;
     },
     btnClickHandler: function() {
       this.sendStepRequest();

@@ -16,13 +16,20 @@ define [
 
         componentDidMount: ->
             $("#userForm").show()
+            @.formWarning = $("#formWarning")
+            @.userNameFormGroup = $("#userNameFormGroup")
+            @.formWarning.hide()
 
         validateForm: ->
             userName = $.trim($("#userName").val())
             if !userName
-                alert "Input userName!"
+                @.formWarning.text("User name is required!").show()
+                @.userNameFormGroup.addClass("has-error")
                 return false
-            return userName
+            else
+                @.formWarning.hide()
+                @.userNameFormGroup.removeClass("has-error")
+                return userName
 
         clickHandler: ->
             userName = @.validateForm()
@@ -55,16 +62,18 @@ define [
 
         render: ->
             formClass = "form-horizontal"
-            controlClass = "col-sm-2"
-            controlBtnClass = "btn btn-info"
+            userNameControlClass = "user-name-input col-sm-2 form-control"
+            controlBtnClass = "btn btn-info user-btn"
             inputWrapperClass = "col-sm-10"
             formGroupClass = "form-group"
+            formWarningClass = "bg-danger warning"
 
             return (
                 <form className={formClass} id="userForm" onSubmit={@.onSubmit}>
+                    <p className={formWarningClass} id="formWarning"></p>
                     <div className={formGroupClass}>
-                        <div className={inputWrapperClass}>
-                            <input type="text" className={controlClass} id="userName" name="userName" placeholder="User Name" onChange={@.onChangeHandler}/>
+                        <div className={inputWrapperClass} id="userNameFormGroup">
+                            <input type="text" className={userNameControlClass} id="userName" name="userName" placeholder="User Name" onChange={@.onChangeHandler}/>
                         </div>
                         <div className={inputWrapperClass}>
                             <button type="button" id="userFormBtn" className={controlBtnClass} onClick={@.clickHandler}>Start quiz</button>

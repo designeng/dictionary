@@ -1,4 +1,4 @@
-.quizword, .step-warning, .result, .notfound-warning{
+.quizword, .step-warning, .result, .warning{
     padding: 10px;
 }
 
@@ -13,4 +13,12 @@
 
 .stepBtn{
     padding: 10px;
+}
+
+.user-name-input{
+/*    width: 250px;*/
+}
+
+.user-btn{
+    margin-top: 10px;
 }

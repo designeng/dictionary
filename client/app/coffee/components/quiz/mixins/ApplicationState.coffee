@@ -9,8 +9,6 @@ define [
             new AjaxRequest(stateServicePath, null, "GET", "application/json").always @onGetApplicationState
 
         onGetApplicationState: (result) ->
-            console.debug "RES:::", result
-            
             if result.state == "INIT_USER_STATE"
                 return @.context.router.transitionTo('user')
             else if result.state == "QUESTIONS_STATE"
