@@ -14,7 +14,7 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
     getDefaultProps: function() {
       return {
         resultRoutePath: "result",
-        stepServicePath: "../api/web/v1/tests",
+        stepServicePath: "../api/web/v1/steps",
         checkAnswerServicePath: "../api/web/v1/answers"
       };
     },
@@ -53,8 +53,9 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
     },
     processAnswerResult: function(result) {
       console.debug("processAnswerResult:::::", result);
+      $("#userScore").text(result.user_score);
+      $("#userMistakes").text(result.mistakes_count);
       if (result.state === "QUIZ_END_WITH_MISTAKES") {
-        console.debug("-----------QUIZ_END_WITH_MISTAKES:::");
         return this.context.router.transitionTo(this.props.resultRoutePath);
       }
       if (result.point === 1) {
@@ -62,7 +63,7 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
       } else {
         this.stepWarning.show();
         if (this.state.attempts.length < this.state.maxAttempsCount) {
-          this.stepWarning.text("Try again");
+          this.stepWarning.text("Wrong answer! Try once more");
           return this.cleanPreviousChoice();
         } else {
           return this.next();
@@ -78,6 +79,9 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
       return new AjaxRequest(this.props.stepServicePath, null, "GET", "application/json").always(this.applyStep);
     },
     applyStep: function(result) {
+      if (result.state === "QUIZ_END_WORDS") {
+        return this.context.router.transitionTo(this.props.resultRoutePath);
+      }
       if (this.isMounted()) {
         this.setState({
           id: result.id,
@@ -105,7 +109,11 @@ define(["underscore", "jquery", "react", "./choice", "components/ajax/ajaxReques
       quizwordValueClass = "quizword-value";
       stepBtnClass = "btn btn-info stepBtn";
       stepWarningClass = "bg-warning step-warning";
-      return React.createElement("form", null, React.createElement("p", {
+      return React.createElement("form", null, React.createElement("div", {
+        "id": "userScore"
+      }, "..."), React.createElement("div", {
+        "id": "userMistakes"
+      }, "---"), React.createElement("p", {
         "className": translateClass
       }, "Translate, please: ", React.createElement("span", {
         "className": quizwordValueClass

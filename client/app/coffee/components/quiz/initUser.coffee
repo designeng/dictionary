@@ -61,7 +61,7 @@ define [
                 <form className={formClass} id="userForm">
                     <div className={formGroupClass}>
                         <div className={inputWrapperClass}>
-                            <input type="text" className={controlClass} value="azxcv" id="userName" name="userName" placeholder="User Name" onChange={@.onChangeHandler}/>
+                            <input type="text" className={controlClass} id="userName" name="userName" placeholder="User Name" onChange={@.onChangeHandler}/>
                         </div>
                         <div className={inputWrapperClass}>
                             <button type="button" className={controlBtnClass} onClick={@.clickHandler}>Start quiz</button>

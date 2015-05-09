@@ -53,7 +53,7 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule', 
-                    'controller' => 'v1/test',
+                    'controller' => 'v1/step',
                     'tokens' => [
                         '{id}' => '<id:\\w+>'
                     ]

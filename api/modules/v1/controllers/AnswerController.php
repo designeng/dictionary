@@ -7,26 +7,13 @@ use yii\rest\Controller;
 use yii\base\Request;
 use api\modules\v1\models\Mistake;
 use api\modules\v1\models\User;
+use api\modules\v1\controllers\UserController;
 
 class AnswerController extends Controller
 {
-    public function actionIndex()
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $mistakes = array();
-        return $mistakes;
-    }
 
     private function updateResponse($response, $array){
         return array_merge($response, $array);
-    }
-
-    private function saveUserInfo(){
-        $session = Yii::$app->session;
-        $user = new User();
-        $user->name = $session["user_name"];
-        $user->score = $session["user_score"];
-        $user->save();
     }
 
     public function actionCreate()
@@ -43,8 +30,6 @@ class AnswerController extends Controller
 
         $value = $data['value'];
         $value = trim($value);
-
-        // return [$value];
 
         if (preg_match('/[^A-Za-z]/', $value )){
             $origin_lang = "ru";
@@ -72,8 +57,8 @@ class AnswerController extends Controller
                 $session["mistakes_count"] = $mistakes_count;
 
                 // quiz is over, if {3} mistakes occured
-                if ($mistakes_count >= 1){
-                    $this->saveUserInfo();
+                if ($mistakes_count >= 3){
+                    UserController::saveCurrentUserResult();
                     $response = $this->updateResponse($response, ["state" => "QUIZ_END_WITH_MISTAKES"]);
                 }
             } else {

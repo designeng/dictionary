@@ -6,8 +6,6 @@ use yii\web\Session;
 use yii\db\Query;
 use api\modules\v1\models\Word;
 
-use api\modules\v1\models\Quiz;
-
 class Bootstrap extends \yii\base\Module
 {
     public $controllerNamespace = 'api\modules\v1\controllers';
@@ -33,11 +31,6 @@ class Bootstrap extends \yii\base\Module
 
         if (!$session->has('mistakes_count')){
             $session["mistakes_count"] = 0;
-        }
-
-        if (!$session->has("user_name")){
-            // DEBUG
-            // $session["user_name"] = "admin";
         }
 
         if (!$session->has("user_score")){

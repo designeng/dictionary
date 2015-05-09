@@ -21,7 +21,7 @@ define [
         getDefaultProps: ->
             return {
                 resultRoutePath: "result"
-                stepServicePath: "../api/web/v1/tests"
+                stepServicePath: "../api/web/v1/steps"
                 checkAnswerServicePath: "../api/web/v1/answers"
             }
 
@@ -63,9 +63,10 @@ define [
         processAnswerResult: (result) ->
             console.debug "processAnswerResult:::::", result
 
+            $("#userScore").text result.user_score
+            $("#userMistakes").text result.mistakes_count
+
             if result.state == "QUIZ_END_WITH_MISTAKES"
-                console.debug "-----------QUIZ_END_WITH_MISTAKES:::"
-                
                 return @.context.router.transitionTo(@.props.resultRoutePath)
             
             # success answer
@@ -76,7 +77,7 @@ define [
                 @.stepWarning.show()
 
                 if @.state.attempts.length < @.state.maxAttempsCount
-                    @.stepWarning.text "Try again"
+                    @.stepWarning.text "Wrong answer! Try once more"
                     @.cleanPreviousChoice()
                 else
                     return @.next()
@@ -90,6 +91,8 @@ define [
             new AjaxRequest(@.props.stepServicePath, null, "GET", "application/json").always @applyStep
 
         applyStep: (result) ->
+            if result.state == "QUIZ_END_WORDS"
+                return @.context.router.transitionTo(@.props.resultRoutePath)
 
             if @.isMounted()
                 @.setState
@@ -120,6 +123,8 @@ define [
 
             return (
                 <form>
+                    <div id="userScore">...</div>
+                    <div id="userMistakes">---</div>
                     <p className={translateClass}>Translate, please: <span className={quizwordValueClass}>{this.state.quizword}</span></p>
                     <Choice source={this.state.choice} ref="quizQuestionGroup" onChange={this.handleChange}/>
                     <p className={stepWarningClass} id="stepWarning"></p>

@@ -65,7 +65,6 @@ define(["underscore", "jquery", "react", "reactRouter", "components/ajax/ajaxReq
       }, React.createElement("input", {
         "type": "text",
         "className": controlClass,
-        "value": "azxcv",
         "id": "userName",
         "name": "userName",
         "placeholder": "User Name",

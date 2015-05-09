@@ -17,7 +17,7 @@ class SessionController extends Controller
         $response = [];
 
         // add user score to response
-        if($params["score"]){
+        if($params && $params["score"]){
             $response = array_merge($response, ["user_score" => $session["user_score"]]);
         }
 
