@@ -1,7 +1,6 @@
-define(["underscore", "jquery", "react", "./mixins/ApplicationState", "components/ajax/ajaxRequest"], function(_, $, React, ApplicationState, AjaxRequest) {
+define(["underscore", "jquery", "react", "components/ajax/ajaxRequest"], function(_, $, React, AjaxRequest) {
   var Result;
   return Result = React.createClass({
-    mixins: [ApplicationState],
     contextTypes: {
       router: React.PropTypes.func
     },

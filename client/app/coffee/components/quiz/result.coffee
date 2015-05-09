@@ -2,13 +2,10 @@ define [
     "underscore"
     "jquery"
     "react"
-    "./mixins/ApplicationState"
     "components/ajax/ajaxRequest"
-], (_, $, React, ApplicationState, AjaxRequest) ->
+], (_, $, React, AjaxRequest) ->
 
     Result = React.createClass
-
-        mixins: [ApplicationState]
 
         contextTypes:
             router: React.PropTypes.func
@@ -18,7 +15,6 @@ define [
             method: "GET"
 
         getInitialState: ->
-            # @.getApplicationState()
             return {
                 score: 0
             }
