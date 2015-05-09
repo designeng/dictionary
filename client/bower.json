@@ -14,7 +14,6 @@
     "react": "~0.13.2",
     "requirejs-react-jsx": "~0.13.1",
     "react-router": "~0.13.3",
-    "bootstrap": "~3.3.4",
-    "js-signals": "~1.0.0"
+    "bootstrap": "~3.3.4"
   }
 }
