@@ -76,13 +76,26 @@ module.exports = (grunt) ->
                 src: ["app/js/requireConfig.js", "test/jasmine/js/SpecRunner.js"]
                 dest: "test/jasmine/js/superSpecRunner.js"
 
+        copy:
+            app:
+                expand: true
+                src: ["app/js/**"]
+                dest: "build"
+
         requirejs:
             compile:
                 options:
                     baseUrl: "app/js/main.js"
                     mainConfigFile: "app/js/requireConfig.js"
-                    name: "path/to/almond"
-                    out: "build/main.js"
+                    # name: "app/js/main"
+                    modules: [
+                        {
+                            name: "main.build"
+                            include: ["main"]
+                            create: true
+                        }
+                    ]
+                    dir: "build"
 
 
     grunt.loadNpmTasks "grunt-contrib-watch"
@@ -90,6 +103,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-coffee-react"
     grunt.loadNpmTasks "grunt-contrib-connect"
     grunt.loadNpmTasks "grunt-contrib-concat"
+    grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-newer"
     grunt.loadNpmTasks "grunt-contrib-requirejs"
 
