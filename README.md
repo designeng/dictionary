@@ -50,3 +50,6 @@ http://127.0.0.1/dictionary/web/#/quiz
 
 ##Browsers compatibility
 Работа one-page приложения протестирована в браузерах Chrome (v42), Safari (v7.0), Firefox (v37).
+
+##Issues
+О всех замеченных неточностях и найденных багах просьба сообщать в [багтреккере проекта](https://github.com/designeng/dictionary/issues).
