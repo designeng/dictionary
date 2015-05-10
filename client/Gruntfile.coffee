@@ -76,6 +76,14 @@ module.exports = (grunt) ->
                 src: ["app/js/requireConfig.js", "test/jasmine/js/SpecRunner.js"]
                 dest: "test/jasmine/js/superSpecRunner.js"
 
+        requirejs:
+            compile:
+                options:
+                    baseUrl: "app/js/main.js"
+                    mainConfigFile: "app/js/requireConfig.js"
+                    name: "path/to/almond"
+                    out: "build/main.js"
+
 
     grunt.loadNpmTasks "grunt-contrib-watch"
     grunt.loadNpmTasks "grunt-contrib-coffee"
@@ -83,8 +91,10 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-connect"
     grunt.loadNpmTasks "grunt-contrib-concat"
     grunt.loadNpmTasks "grunt-newer"
+    grunt.loadNpmTasks "grunt-contrib-requirejs"
 
     grunt.registerTask "default", ["connect:server", "watch"]
+    grunt.registerTask "build", ["requirejs:compile", "default"]
 
     # compilation
     grunt.registerTask "coffee-compile-app",            ["newer:cjsx:app"]
