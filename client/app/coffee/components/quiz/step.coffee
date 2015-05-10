@@ -58,11 +58,6 @@ define [
             new AjaxRequest(@.props.checkAnswerServicePath, data, "POST", "application/json").always @processAnswerResult
         
         processAnswerResult: (result) ->
-            console.debug "processAnswerResult:::::", result
-
-            $("#userScore").text result.user_score
-            $("#userMistakes").text result.mistakes_count
-
             if result.state == "QUIZ_END_WITH_MISTAKES"
                 return @.context.router.transitionTo(@.props.resultRoutePath)
             
@@ -121,8 +116,6 @@ define [
 
             return (
                 <form>
-                    <div id="userScore">...</div>
-                    <div id="userMistakes">---</div>
                     <p className={translateClass}>Translate, please: <span className={quizwordValueClass}>{this.state.quizword}</span></p>
                     <Choice source={this.state.choice} ref="quizQuestionGroup" onChange={this.handleChange}/>
                     <p className={stepWarningClass} id="stepWarning"></p>

@@ -49,9 +49,6 @@ define(["underscore", "jquery", "react", "./choice", "./mixins/ApplicationState"
       return new AjaxRequest(this.props.checkAnswerServicePath, data, "POST", "application/json").always(this.processAnswerResult);
     },
     processAnswerResult: function(result) {
-      console.debug("processAnswerResult:::::", result);
-      $("#userScore").text(result.user_score);
-      $("#userMistakes").text(result.mistakes_count);
       if (result.state === "QUIZ_END_WITH_MISTAKES") {
         return this.context.router.transitionTo(this.props.resultRoutePath);
       }
@@ -109,11 +106,7 @@ define(["underscore", "jquery", "react", "./choice", "./mixins/ApplicationState"
       quizwordValueClass = "quizword-value";
       stepBtnClass = "btn btn-info stepBtn";
       stepWarningClass = "bg-warning step-warning";
-      return React.createElement("form", null, React.createElement("div", {
-        "id": "userScore"
-      }, "..."), React.createElement("div", {
-        "id": "userMistakes"
-      }, "---"), React.createElement("p", {
+      return React.createElement("form", null, React.createElement("p", {
         "className": translateClass
       }, "Translate, please: ", React.createElement("span", {
         "className": quizwordValueClass
