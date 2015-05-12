@@ -54,7 +54,7 @@ baseUrl: "/dictionary/client/app/js"
 ```
 grunt
 ```
-Теперь можно вносить изменения в файл `client/app/coffee/requireConfig.coffee`, соответствующий .js-файл будет сгенерирован автоматически. 
+Теперь можно вносить изменения в файл `client/app/coffee/requireConfig.coffee`, а также в остальные `.coffee`-исходники. Cоответствующие .js-файлы будут сгенерированы автоматически. 
 Примечание: для разработки проекта использовался coffescript со специальным компилятором для React.js формата `.jsx` (см. пакет `grunt-coffee-react`).
 
 
