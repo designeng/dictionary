@@ -85,17 +85,10 @@ module.exports = (grunt) ->
         requirejs:
             compile:
                 options:
-                    baseUrl: "app/js/main.js"
+                    baseUrl: "app/js/"
                     mainConfigFile: "app/js/requireConfig.js"
-                    # name: "app/js/main"
-                    modules: [
-                        {
-                            name: "main.build"
-                            include: ["main"]
-                            create: true
-                        }
-                    ]
-                    dir: "build"
+                    name: "main"
+                    out: "app/build/main.js"
 
 
     grunt.loadNpmTasks "grunt-contrib-watch"

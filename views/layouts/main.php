@@ -21,7 +21,7 @@ AppAsset::register($this);
     <link rel="stylesheet" href="../client/vendor/bower/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../client/app/assets/styles.css">
     <?php $this->head() ?>
-    <script type="text/javascript" data-main="<?php echo Yii::$app->request->baseUrl.'/../client/app/js/supermain'?>" src="<?php echo Yii::$app->request->baseUrl. '/../client/app/js/lib/require.js' ?>"></script>
+    <script type="text/javascript" data-main="<?php echo Yii::$app->request->baseUrl.'/../client/app/build/main'?>" src="<?php echo Yii::$app->request->baseUrl. '/../client/app/js/lib/require.js' ?>"></script>
 </head>
 <body>
 
