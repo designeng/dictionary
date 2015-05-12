@@ -58,13 +58,9 @@ grunt
 Примечание: для разработки проекта использовался coffescript со специальным компилятором для React.js формата `.jsx` (см. пакет `grunt-coffee-react`).
 
 
-
 ###Browsers compatibility
 Работа one-page приложения протестирована в браузерах Chrome (v42), Safari (v7.0), Firefox (v37).
 
-###TODO
-+ Добавить `grunt build-task` для сборки клиентской части (r.js).
-+ Добавить скрипт для автоматизации синхронизации baseUrl с текущей директорией установки.
 
 ###Issues
 О всех замеченных неточностях и найденных багах просьба сообщать в [багтреккере проекта](https://github.com/designeng/dictionary/issues).
