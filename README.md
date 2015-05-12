@@ -57,6 +57,12 @@ grunt
 Теперь можно вносить изменения в файл `client/app/coffee/requireConfig.coffee`, а также в остальные `.coffee`-исходники. Cоответствующие .js-файлы будут сгенерированы автоматически. 
 Примечание: для разработки проекта использовался coffescript со специальным компилятором для React.js формата `.jsx` (см. пакет `grunt-coffee-react`).
 
++ Livereload: раскомментируйте следующий код в `views/site/index.php`:
+```
+<script>document.write('<script src="http://' + (location.host || 'localhost')
+.split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+```
+
 
 ###Browsers compatibility
 Работа one-page приложения протестирована в браузерах Chrome (v42), Safari (v7.0), Firefox (v37).
