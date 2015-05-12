@@ -44,7 +44,7 @@ npm instal
 ```php
 <?php echo Yii::$app->request->baseUrl.'/../client/app/js/supermain'?>
 ```
-+ Возможно, придется изменить baseUrl для в конфигурации requirejs на соответствующий вашим параметрам установки:
++ Возможно, потребуется изменить baseUrl для в конфигурации requirejs на соответствующий вашим параметрам установки:
 ```coffee
 baseUrl: "/dictionary/client/app/js"
 ```
