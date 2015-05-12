@@ -40,7 +40,7 @@ http://127.0.0.1/dictionary/web/
 ```
 npm instal
 ```
-+ Фрагмент php-кода в файле `views/layouts/main.php` должен содержать ссылку на основной js-файл `supermain` (сейчас requirejs адресуется к сборке, т.е. к `'/../client/app/build/main'`, полученному в результате запуска grunt комманды `grunt build`):
++ Фрагмент php-кода в файле `views/layouts/main.php` должен содержать ссылку на основной js-файл `client/app/js/supermain` (сейчас requirejs адресуется к сборке, т.е. к `'/../client/build/main'`, полученному в результате запуска grunt комманды `grunt build`):
 ```php
 <?php echo Yii::$app->request->baseUrl.'/../client/app/js/supermain'?>
 ```
